@@ -36,7 +36,7 @@ export function ContactForm({ product }: { product?: string }) {
       if (!res.ok || !data.success) throw new Error(data.message || "Gagal mengirim pesan.");
 
       setStatus("success");
-      setMsg(data.message || "Pesan berhasil dikirim! Tim kami akan segera menindaklanjuti.");
+      setMsg(data.message || "Pesan berhasil dikirim! Tim kami akan segera merespon.");
       setName("");
       setEmail("");
       setMessage(product ? `Halo, saya ingin menanyakan informasi tentang ${product}` : "");
@@ -49,51 +49,51 @@ export function ContactForm({ product }: { product?: string }) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <label className="block text-xs font-medium text-charcoal">Nama Lengkap *</label>
+        <label className="block text-xs font-semibold text-charcoal">Nama Lengkap *</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
           placeholder="Nama Anda"
-          className="mt-1 w-full rounded-lg border border-sand-300 bg-white px-3.5 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:ring-1 focus:ring-ocean"
+          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-4 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-charcoal">Alamat Email *</label>
+        <label className="block text-xs font-semibold text-charcoal">Alamat Email *</label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
           required
-          placeholder="email@anda.com"
-          className="mt-1 w-full rounded-lg border border-sand-300 bg-white px-3.5 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:ring-1 focus:ring-ocean"
+          placeholder="email@example.com"
+          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-4 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-charcoal">Pesan / Pertanyaan *</label>
+        <label className="block text-xs font-semibold text-charcoal">Pesan / Pertanyaan *</label>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={4}
-          placeholder="Tuliskan pertanyaan Anda mengenai produk atau ketersediaan katalog..."
-          className="mt-1 w-full rounded-lg border border-sand-300 bg-white px-3.5 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:ring-1 focus:ring-ocean"
+          placeholder="Tuliskan pertanyaan atau kebutuhan Anda..."
+          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-4 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white resize-none"
         />
       </div>
 
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full inline-flex h-11 items-center justify-center rounded-lg bg-ocean px-6 text-xs font-medium uppercase tracking-wider text-white shadow-xs hover:bg-[#0f2422] transition-colors disabled:opacity-60"
+        className="w-full rounded-full bg-ocean py-3 text-sm font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition disabled:opacity-60"
       >
-        {status === "loading" ? "Mengirim..." : "Kirim Pesan"}
+        {status === "loading" ? "Mengirim Pesan..." : "Kirim Pesan"}
       </button>
 
       {msg && (
         <div
-          className={`rounded-lg p-3 text-xs leading-relaxed ${
+          className={`rounded-xl p-3 text-xs leading-relaxed ${
             status === "success"
               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
               : "bg-red-50 text-clay border border-red-200"
@@ -102,6 +102,9 @@ export function ContactForm({ product }: { product?: string }) {
           {msg}
         </div>
       )}
+      <p className="text-[11px] text-stone-500 text-center">
+        Pesan Anda akan diterima oleh tim {siteConfig.brand.name}.
+      </p>
     </form>
   );
 }

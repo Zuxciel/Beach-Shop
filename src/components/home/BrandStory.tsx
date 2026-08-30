@@ -4,70 +4,54 @@ import { siteConfig } from "@/lib/site-config";
 
 export function BrandStory() {
   return (
-    <section className="bg-sand-50/50 border-b border-sand-200 py-16 sm:py-20">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12">
-        <div className="grid gap-10 lg:grid-cols-12 items-center">
-          {/* Left: Image (5 cols) */}
-          <div className="lg:col-span-5">
-            <div className="relative aspect-[4/3] sm:aspect-[4/3] w-full overflow-hidden rounded-xl bg-sand-100 border border-sand-200 shadow-xs">
-              <Image
-                src="/img/Beach1.jpg"
-                alt="Suasana bertema pantai — Aesthetic of Indonesia"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                loading="lazy"
-              />
-            </div>
+    <section className="bg-white border-y border-sand-200">
+      <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8 py-14 md:py-20">
+        <div className="grid gap-8 md:grid-cols-2 md:items-center">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-sand-100 shadow-sm">
+            <Image
+              src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1200&auto=format&fit=crop"
+              alt="Kerajinan anyaman alami — Aesthetic of Indonesia"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="lazy"
+            />
           </div>
-
-          {/* Right: Text (7 cols) */}
-          <div className="lg:col-span-7 lg:pl-6">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
-              Tentang Koleksi
-            </span>
-
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl text-charcoal leading-tight">
-              Karakter & Bahan Anyaman Pesisir
+          <div className="md:pl-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">Cerita & Identitas</p>
+            <h2 className="mt-2 font-display text-3xl md:text-4xl leading-tight">
+              Terinspirasi Keindahan <br />
+              <span className="italic text-terracotta-dark">Pantai & Tradisi Bali</span>
             </h2>
-
-            <p className="mt-4 text-sm leading-relaxed text-stone-600">
-              {siteConfig.brand.name} menghadirkan katalog pilihan tas anyaman, topi pantai, dan sandal yang dirancang untuk melengkapi suasana santai di tepi pantai. Koleksi kami menggunakan ragam material seperti serat rotan, daun pandan, dan jerami.
+            <p className="mt-4 text-sm leading-6 text-stone-600">
+              {siteConfig.brand.name} lahir dari apresiasi mendalam terhadap keindahan alam pesisir dan kepiawaian perajin anyaman tradisional. Kami menghadirkan katalog visual tas pantai rotan, topi pelindung surya, dan sandal kasual yang mengutamakan bahan alami serta kenyamanan.
             </p>
-
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-sand-200 pt-6">
-              <div>
-                <p className="font-display text-lg text-charcoal">Rotan</p>
-                <p className="mt-1 text-xs text-stone-500 leading-relaxed">
-                  Struktur anyaman kokoh dengan bentuk bulat yang khas untuk gaya pantai.
-                </p>
-              </div>
-              <div>
-                <p className="font-display text-lg text-charcoal">Pandan</p>
-                <p className="mt-1 text-xs text-stone-500 leading-relaxed">
-                  Serat lemas dan ringan, cocok untuk tas jinjing dan tote bahu sehari-hari.
-                </p>
-              </div>
-              <div>
-                <p className="font-display text-lg text-charcoal">Jerami</p>
-                <p className="mt-1 text-xs text-stone-500 leading-relaxed">
-                  Material topi pelindung surya dengan sirkulasi udara yang nyaman.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 flex items-center gap-4">
+            <ul className="mt-6 space-y-3 text-sm text-stone-700">
+              <li className="flex gap-3">
+                <span className="h-6 w-6 rounded-full bg-sand-100 text-ocean flex items-center justify-center text-xs font-bold">✓</span>
+                Anyaman rotan alami, serat daun pandan, dan jerami ramah lingkungan
+              </li>
+              <li className="flex gap-3">
+                <span className="h-6 w-6 rounded-full bg-sand-100 text-ocean flex items-center justify-center text-xs font-bold">✓</span>
+                Desain tropis estetik yang fleksibel untuk berbagai momen liburan
+              </li>
+              <li className="flex gap-3">
+                <span className="h-6 w-6 rounded-full bg-sand-100 text-ocean flex items-center justify-center text-xs font-bold">✓</span>
+                Konsultasi produk dan rekomendasi gaya langsung via AI Chatbot
+              </li>
+            </ul>
+            <div className="mt-8 flex gap-3">
               <Link
-                href="/collections/shop-all"
-                className="inline-flex h-11 items-center justify-center rounded-lg bg-ocean px-6 text-xs font-medium uppercase tracking-wider text-white shadow-xs hover:bg-[#0f2422] transition-colors"
+                href="/pages/lookbook"
+                className="inline-flex h-11 items-center justify-center rounded-full bg-ocean px-6 text-sm font-medium text-white hover:bg-[#0f2e2c] transition"
               >
-                Lihat Semua Koleksi
+                Lihat Lookbook
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex h-11 items-center justify-center rounded-lg border border-sand-300 bg-white px-6 text-xs font-medium uppercase tracking-wider text-charcoal hover:border-ocean transition-colors"
+                className="inline-flex h-11 items-center justify-center rounded-full border border-sand-200 bg-white px-6 text-sm font-medium hover:border-ocean transition"
               >
-                Kontak Kami
+                Kontak & Lokasi
               </Link>
             </div>
           </div>

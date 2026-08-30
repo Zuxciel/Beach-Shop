@@ -1,62 +1,73 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
 
 export function Hero() {
+  const openChat = () => {
+    window.dispatchEvent(
+      new CustomEvent("open-aesthetic-chat", {
+        detail: { message: "Halo! Saya ingin tahu lebih banyak tentang koleksi tas dan topi pantai Aesthetic of Indonesia." },
+      })
+    );
+  };
+
   return (
-    <section className="bg-[#faf7f2] border-b border-sand-200">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Typography & Action (6 cols) */}
-          <div className="lg:col-span-6 flex flex-col justify-center order-2 lg:order-1">
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-terracotta-dark">
-              Katalog Produk
-            </span>
+    <section className="relative overflow-hidden bg-sand-100">
+      <div className="absolute inset-0">
+        <Image
+          src="/img/Beach1.jpg"
+          alt="Pantai Bali dengan tas anyaman Aesthetic of Indonesia dan topi pantai"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#fdfbf7]/95 via-[#fdfbf7]/75 to-transparent md:from-[#fdfbf7]/85 md:via-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+      </div>
 
-            <h1 className="mt-3 font-display text-4xl sm:text-5xl lg:text-6xl text-charcoal font-normal leading-[1.02]">
-              Aesthetic
-              <span className="block italic text-terracotta-dark font-light mt-1">
-                of Indonesia
-              </span>
-            </h1>
-
-            <p className="mt-4 text-base font-medium text-stone-700">
-              {siteConfig.brand.tagline}
-            </p>
-
-            <p className="mt-2 text-sm leading-relaxed text-stone-600 max-w-lg">
-              Eksplorasi referensi desain kerajinan anyaman tas pantai, topi pelindung surya, dan sandal kasual bertema pesisir tropis.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/collections/shop-all"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-ocean px-8 text-xs font-medium uppercase tracking-wider text-white shadow-xs hover:bg-[#0f2422] transition-colors"
-              >
-                <span>Lihat Koleksi</span>
-                <span aria-hidden>→</span>
-              </Link>
-              <Link
-                href="/pages/lookbook"
-                className="inline-flex h-12 items-center justify-center rounded-lg border border-sand-300 bg-white px-7 text-xs font-medium uppercase tracking-wider text-charcoal hover:border-ocean transition-colors"
-              >
-                Lookbook
-              </Link>
-            </div>
+      <div className="relative mx-auto flex min-h-[520px] max-w-[1400px] items-center px-4 py-16 md:min-h-[640px] md:px-6 lg:px-8 md:py-20">
+        <div className="max-w-[600px]">
+          <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-ocean shadow-sm backdrop-blur">
+            Katalog Koleksi • Bali Inspired
+          </p>
+          <h1 className="mt-4 font-display text-[42px] font-light leading-[0.9] tracking-[-0.03em] text-charcoal md:text-[64px]">
+            Aesthetic
+            <span className="block font-normal italic text-terracotta-dark">of Indonesia</span>
+          </h1>
+          <p className="mt-3 font-medium text-sm tracking-wide text-stone-700">
+            {siteConfig.brand.tagline}
+          </p>
+          <p className="mt-3 max-w-[500px] text-[15px] leading-6 text-stone-700/90">
+            Kurasi karya anyaman tas pantai, topi, dan sandal bernuansa alami yang memadukan tradisi perajin lokal Bali dengan estetika liburan modern.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/collections/shop-all">
+              <Button size="lg" className="px-8 shadow-sm">
+                Lihat Koleksi
+              </Button>
+            </Link>
+            <button
+              onClick={openChat}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-charcoal/15 bg-white/85 px-8 text-sm font-medium backdrop-blur hover:bg-white transition-colors shadow-sm text-charcoal"
+            >
+              <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Tanya AI Asisten
+            </button>
           </div>
-
-          {/* Right Column: Hero Visual Frame (6 cols) */}
-          <div className="lg:col-span-6 order-1 lg:order-2">
-            <div className="relative aspect-[16/11] sm:aspect-[16/10] w-full overflow-hidden rounded-2xl bg-sand-100 border border-sand-200 shadow-sm">
-              <Image
-                src="/img/Beach1.jpg"
-                alt="Koleksi Pantai Aesthetic of Indonesia"
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+          <div className="mt-8 flex flex-wrap items-center gap-4 text-xs text-stone-600">
+            <span className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-terracotta" /> 8 Koleksi Pilihan
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-ocean" /> AI Chatbot Aktif
+            </span>
+            <span className="hidden md:flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-stone-400" /> Pengrajin Bali
+            </span>
           </div>
         </div>
       </div>

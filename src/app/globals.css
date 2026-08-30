@@ -1,31 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf7f2;
-  --foreground: #221e1a;
-  
-  /* Luxury Coastal Earth Tone Palette */
+  --background: #fdfbf7;
+  --foreground: #2c241b;
+  /* Warm neutrals */
   --sand-50: #fdfbf7;
-  --sand-100: #f5efe4;
-  --sand-200: #e8dfd1;
-  --sand-300: #d6c8b4;
-  
-  --driftwood: #b8ac97;
-  --driftwood-dark: #8c806d;
-  
-  --terracotta: #b85d3d;
-  --terracotta-dark: #914327;
-  --terracotta-light: #e09477;
-  --clay: #8a3622;
-  
-  --ocean-teal: #183330;
-  --ocean-teal-light: #264e4a;
-  --ocean-accent: #2e6660;
-  
-  --cream: #fffdfa;
-  --charcoal: #1c1815;
-  --stone-500: #736c64;
-  
+  --sand-100: #f7f0e3;
+  --sand-200: #ece0c5;
+  --sand-300: #ddd0aa;
+  --driftwood: #c2b8a3;
+  --driftwood-dark: #a99e8a;
+  --terracotta: #c67c5c;
+  --terracotta-dark: #a85a3a;
+  --terracotta-light: #e8a082;
+  --clay: #8b3a2a;
+  --ocean-teal: #1a4d4a;
+  --ocean-teal-light: #2a6b66;
+  --cream: #fffaf0;
+  --charcoal: #2c241b;
+  --stone-500: #78716c;
+  /* Bottom nav height for spacing */
   --bottom-nav-h: 64px;
 }
 
@@ -42,44 +36,44 @@
   --color-clay: var(--clay);
   --color-ocean: var(--ocean-teal);
   --color-cream: var(--cream);
-  --color-charcoal: var(--charcoal);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-cormorant);
   --font-display: var(--font-cormorant);
-  --radius-sm: 2px;
-  --radius-md: 6px;
-  --radius-lg: 12px;
-  --radius-xl: 20px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--sand-300) transparent;
+  scrollbar-color: var(--driftwood) transparent;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, .font-display {
-  font-family: var(--font-cormorant), "Times New Roman", Garamond, serif;
-  letter-spacing: -0.015em;
+/* Only display headings use Cormorant Garamond for editorial impact */
+.font-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+  letter-spacing: -0.02em;
 }
 
-/* Subtle luxury focus */
+/* Focus visible */
 :focus-visible {
-  outline: 1.5px solid var(--ocean-teal);
-  outline-offset: 3px;
+  outline: 2px solid var(--ocean-teal);
+  outline-offset: 2px;
 }
 
 /* Selection */
 ::selection {
-  background: #e8dfd1;
-  color: #1c1815;
+  background: var(--sand-200);
+  color: var(--charcoal);
 }
 
 /* Smooth scroll */
@@ -87,6 +81,7 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide scrollbar for horizontal scroll areas but keep functionality */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -95,12 +90,14 @@ html {
   display: none;
 }
 
+/* Safe area padding for iOS notch/home bar */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
+/* Prevent content jump when chat opens on mobile */
 @media (max-width: 639px) {
   body.chat-open {
     overflow: hidden;

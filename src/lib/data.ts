@@ -365,7 +365,7 @@ export const collections: Collection[] = [
     descriptionHtml:
       "<p>Katalog Aesthetic of Indonesia — kurasi 8 referensi produk bertema pantai khas Bali untuk referensi visual dan inspirasi gaya.</p>",
     image: {
-      url: localImg("Beach1.jpg"),
+      url: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1200&auto=format&fit=crop",
       altText: "Koleksi Aesthetic of Indonesia — foto katalog pantai Bali",
       width: 1200,
       height: 800,
@@ -422,7 +422,7 @@ export const collections: Collection[] = [
 export const ugcPosts: UGCPost[] = [
   {
     id: "ugc_1",
-    imageUrl: localImg("Beach1.jpg"),
+    imageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1200&auto=format&fit=crop",
     altText: "Koleksi Aesthetic of Indonesia di Pantai Bali",
     author: "@aesthetic.id",
     caption: "Golden hour di pantai Bali bersama koleksi anyaman Aesthetic of Indonesia 🌊✨ #AestheticOfIndonesia",
@@ -481,7 +481,7 @@ export const ugcPosts: UGCPost[] = [
 export const lookbookItems: LookbookItem[] = [
   {
     id: "lb1",
-    imageUrl: localImg("Beach1.jpg"),
+    imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop",
     altText: "Lookbook Round Beach Bag — Aesthetic of Indonesia",
     title: "Bulat & Matahari",
     description: "Harmoni tas anyaman rotan bulat dengan hangatnya cahaya sore pantai Bali.",
