@@ -58,13 +58,31 @@ export default async function ProductPage({ params }: Props) {
       "@type": "Offer",
       price,
       priceCurrency: currency,
+      priceValidUntil: "2027-12-31",
+      itemCondition: "https://schema.org/NewCondition",
       availability,
       url: `${siteConfig.brand.url}/products/${handle}`,
+      seller: {
+        "@type": "Organization",
+        name: siteConfig.brand.name,
+        url: siteConfig.brand.url,
+      },
       shippingDetails: {
         "@type": "OfferShippingDetails",
         shippingRate: { "@type": "MonetaryAmount", value: "0", currency },
-        shippingDestination: { "@type": "DefinedRegion", addressCountry: "US" },
-        deliveryTime: { "@type": "ShippingDeliveryTime", handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" } },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "ID" },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "ID",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 7,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
       },
     },
     ...(product.rating

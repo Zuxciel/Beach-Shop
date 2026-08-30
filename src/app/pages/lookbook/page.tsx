@@ -9,6 +9,19 @@ export const metadata: Metadata = {
   title: `Lookbook | ${siteConfig.brand.name}`,
   description: `Lookbook ${siteConfig.brand.name} — ilustrasi katalog bertema pantai. Foto ilustrasi untuk referensi visual, konfirmasi via WhatsApp.`,
   alternates: { canonical: "/pages/lookbook" },
+  openGraph: {
+    title: `Lookbook | ${siteConfig.brand.name}`,
+    description: `Lookbook ${siteConfig.brand.name} — editorial cerita visual kerajinan pantai khas Bali.`,
+    url: `${siteConfig.brand.url}/pages/lookbook`,
+    type: "article",
+    images: [{ url: `${siteConfig.brand.url}/img/Beach1.jpg`, width: 1200, height: 800, alt: "Lookbook Easthtic of Indonesia" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Lookbook | ${siteConfig.brand.name}`,
+    description: `Lookbook ${siteConfig.brand.name} — editorial cerita visual kerajinan pantai khas Bali.`,
+    images: [`${siteConfig.brand.url}/img/Beach1.jpg`],
+  },
 };
 
 export default function LookbookPage() {
