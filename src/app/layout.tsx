@@ -5,6 +5,7 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { ChatbotWidget } from "@/components/chat/ChatbotWidget";
 import { siteConfig } from "@/lib/site-config";
 
 const cormorant = Cormorant_Garamond({
@@ -23,7 +24,7 @@ const inter = Inter({
 const baseUrl = siteConfig.brand.url;
 const siteName = siteConfig.brand.name;
 const siteDescription =
-  "Easthtic of Indonesia — katalog identitas ilustratif bertema pantai: 8 referensi koleksi tas, topi & sandal untuk gambaran umum. Foto & deskripsi ilustrasi, konfirmasi via WhatsApp.";
+  "Aesthetic of Indonesia — katalog koleksi kerajinan tas, topi, dan sandal bertema pantai yang terinspirasi dari keindahan alam Bali. Konsultasi langsung via AI Chatbot.";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -39,22 +40,21 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   keywords: [
-    "Easthtic",
-    "Easthtic of Indonesia",
-    "tas pantai",
+    "Aesthetic of Indonesia",
+    "Aesthetic",
+    "tas pantai Bali",
     "topi pantai",
     "sandal pantai",
-    "kerajinan pantai Bali",
-    "anyaman rotan",
-    "katalog koleksi Bali",
-    "tas anyaman",
+    "kerajinan anyaman rotan",
+    "katalog pantai Bali",
+    "tas anyaman Bali",
     "easthtic.my.id",
   ],
   authors: [{ name: siteName, url: baseUrl }],
   creator: siteName,
   publisher: siteName,
   category: "Shopping",
-  classification: "Katalog Koleksi Bertema Pantai",
+  classification: "Katalog Koleksi Kerajinan Pantai",
   applicationName: siteName,
   referrer: "origin-when-cross-origin",
   formatDetection: { email: true, address: true, telephone: true },
@@ -94,7 +94,7 @@ export const metadata: Metadata = {
         url: `${baseUrl}/img/Beach1.jpg`,
         width: 1200,
         height: 800,
-        alt: `Koleksi Easthtic — foto katalog pantai Bali`,
+        alt: `Koleksi ${siteName} — Foto Pantai Bali`,
       },
     ],
   },
@@ -123,7 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     image: `${siteConfig.brand.url}/og-image.jpg`,
     description: siteDescription,
     email: siteConfig.brand.email,
-    telephone: siteConfig.brand.phone,
+    telephone: siteConfig.brand.phone || undefined,
     address: {
       "@type": "PostalAddress",
       streetAddress: siteConfig.brand.address,
@@ -131,11 +131,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       addressRegion: "Bali",
       addressCountry: "ID",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: siteConfig.brand.coordinates.lat,
+      longitude: siteConfig.brand.coordinates.lng,
+    },
     sameAs: [`https://instagram.com/${siteConfig.brand.instagram}`],
     openingHours: "Mo-Sa 09:00-18:00",
     priceRange: "IDR 180000 - IDR 550000",
     currenciesAccepted: "IDR",
-    paymentAccepted: "Cash, WhatsApp",
+    paymentAccepted: "Transfer Bank, Cash",
   };
 
   const websiteJsonLd = {
@@ -144,7 +149,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     name: siteConfig.brand.name,
     url: siteConfig.brand.url,
     inLanguage: "id-ID",
-    publisher: { "@type": "Organization", name: siteConfig.brand.name, logo: `${siteConfig.brand.url}/icon.png` },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.brand.name,
+      logo: `${siteConfig.brand.url}/icon.png`,
+    },
     potentialAction: {
       "@type": "SearchAction",
       target: `${siteConfig.brand.url}/collections/shop-all?q={search_term_string}`,
@@ -163,13 +172,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1">{children}</main>
         <div className="border-t border-sand-200 bg-sand-50 px-4 py-3 text-center text-[11px] leading-4 text-stone-500">
-          <p>Disclaimer: Seluruh foto, deskripsi, harga & diskon di situs ini bersifat ilustrasi katalog identitas, bukan penawaran mengikat. Detail aktual (bahan, warna, ukuran, ketersediaan, harga) dapat bervariasi. Hubungi WhatsApp untuk konfirmasi terbaru sebelum melakukan pemesanan atau kerjasama.</p>
+          <p>
+            {siteConfig.brand.name} — Katalog identitas & referensi gaya bertema pantai. Konsultasikan produk, bahan, dan ketersediaan langsung melalui AI Chatbot kami.
+          </p>
         </div>
         <Footer />
         <BottomNav />
+        <ChatbotWidget />
         <div className="h-[64px] md:hidden" aria-hidden />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
       </body>
     </html>
   );

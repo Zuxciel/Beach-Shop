@@ -1,30 +1,63 @@
 import { NextResponse } from "next/server";
+import { siteConfig } from "@/lib/site-config";
 
 export async function POST(req: Request) {
   try {
     const { name, email, message, product } = await req.json();
     if (!name || !message) {
-      return NextResponse.json({ success: false, message: "Nama dan pesan wajib diisi." }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "Nama dan pesan wajib diisi." },
+        { status: 400 }
+      );
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ success: false, message: "Email tidak valid." }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "Email tidak valid." },
+        { status: 400 }
+      );
     }
 
-    // Mock: kirim ke DB / email / CRM
-    // Untuk identitas toko, kita log dan anggap terkirim.
-    // Jika ingin kirim ke WhatsApp via API (WATI, Twilio), tambahkan di sini.
-    console.log("[contact]", { name, email, message, product });
+    console.log("[contact message received]", {
+      brand: siteConfig.brand.name,
+      name,
+      email,
+      message,
+      product,
+      date: new Date().toISOString(),
+    });
 
-    // Buat link WhatsApp otomatis (dipakai frontend untuk redirect)
-    const waPhone = process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890";
-    const waText = encodeURIComponent(
-      `Halo Easthtic of Indonesia, saya ${name}${email ? ` (${email})` : ""}${product ? ` ingin tanya tentang ${product}` : ""}: ${message}`
-    );
-    const waUrl = `https://wa.me/${waPhone}?text=${waText}`;
+    // Simpan ke Firebase jika ada
+    const dbUrl =
+      siteConfig.firebase.databaseUrl ||
+      process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL ||
+      process.env.FIREBASE_DATABASE_URL;
 
-    await new Promise((r) => setTimeout(r, 400));
-    return NextResponse.json({ success: true, message: "Pesan diterima! Kami akan balas via WhatsApp/Email.", waUrl });
+    if (dbUrl) {
+      const cleanUrl = dbUrl.replace(/\/$/, "");
+      const contactId = `contact_${Date.now()}`;
+      await fetch(`${cleanUrl}/contacts/${contactId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email: email || "",
+          message,
+          product: product || "",
+          createdAt: new Date().toISOString(),
+        }),
+      }).catch((e) => console.warn("[Firebase Contact Save Error]", e));
+    }
+
+    await new Promise((r) => setTimeout(r, 300));
+    return NextResponse.json({
+      success: true,
+      message:
+        "Pesan Anda telah berhasil dikirim ke tim Aesthetic of Indonesia! Kami akan menindaklanjuti pesan Anda secepatnya.",
+    });
   } catch {
-    return NextResponse.json({ success: false, message: "Gagal mengirim pesan." }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: "Gagal mengirim pesan." },
+      { status: 500 }
+    );
   }
 }
