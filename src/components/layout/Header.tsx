@@ -22,16 +22,16 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-sand-200 bg-cream/85 backdrop-blur-md">
-        <div className="mx-auto flex h-[58px] sm:h-[64px] max-w-[1400px] items-center justify-between px-3 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-40 border-b border-sand-200 bg-cream/85 backdrop-blur-md overflow-hidden">
+        <div className="mx-auto flex h-[56px] max-[400px]:h-[52px] sm:h-[64px] max-w-[1400px] items-center justify-between px-2 max-[400px]:px-2 sm:px-6 lg:px-8 gap-1 sm:gap-2">
           {/* Left: hamburger + desktop nav */}
-          <div className="flex items-center gap-4 lg:gap-6">
+          <div className="flex items-center gap-2 sm:gap-4 lg:gap-6 min-w-0">
             <button
               aria-label="Buka menu navigasi"
               onClick={() => setMobileOpen(true)}
-              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full hover:bg-sand-100 lg:hidden"
+              className="flex h-8 w-8 max-[400px]:h-7 max-[400px]:w-7 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full hover:bg-sand-100 lg:hidden"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg className="w-[18px] h-[18px] sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M4 7h16M4 12h16M4 17h16" />
               </svg>
             </button>
@@ -49,28 +49,28 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Center logo */}
-          <Link href="/" className="text-center select-none py-1">
-            <span className="block font-display text-[16px] sm:text-[18px] md:text-[20px] font-normal tracking-[0.14em] text-charcoal leading-none">
+          {/* Center logo — shrink on <400px to avoid overlap */}
+          <Link href="/" className="text-center select-none py-1 min-w-0 flex-1 max-[400px]:flex-none mx-1 sm:mx-2">
+            <span className="block font-display text-[14px] max-[400px]:text-[13px] sm:text-[18px] md:text-[20px] font-normal tracking-[0.12em] max-[400px]:tracking-[0.08em] sm:tracking-[0.14em] text-charcoal leading-none truncate">
               {siteConfig.brand.shortName}
             </span>
-            <span className="block text-[8px] sm:text-[9px] tracking-[0.3em] text-stone-500 font-sans font-medium uppercase mt-0.5">
+            <span className="block text-[7px] max-[400px]:text-[7px] sm:text-[9px] tracking-[0.25em] sm:tracking-[0.3em] text-stone-500 font-sans font-medium uppercase mt-0.5 truncate">
               OF INDONESIA
             </span>
           </Link>
 
-          {/* Right: AI Chatbot Trigger & Contact */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Right: AI Chatbot Trigger & Contact — shrink on <400px */}
+          <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 shrink-0">
             <button
               onClick={openChat}
-              className="hidden md:inline-flex h-9 sm:h-10 items-center justify-center gap-2 rounded-full bg-ocean px-4 sm:px-5 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition"
+              className="hidden md:inline-flex h-9 sm:h-10 items-center justify-center gap-2 rounded-full bg-ocean px-4 sm:px-5 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition whitespace-nowrap"
             >
               <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
               Tanya AI Asisten
             </button>
             <Link
               href="/contact"
-              className="hidden md:inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-sand-200 bg-white hover:border-ocean transition text-stone-700"
+              className="hidden md:inline-flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-sand-200 bg-white hover:border-ocean transition text-stone-700"
               title="Halaman Kontak & Lokasi"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -78,13 +78,13 @@ export function Header() {
                 <path d="M4 6l8 7 8-7" />
               </svg>
             </Link>
-            {/* Mobile AI Chat launcher in header */}
+            {/* Mobile AI Chat launcher in header — smaller on <400px */}
             <button
               onClick={openChat}
-              className="flex md:hidden h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-ocean text-white shadow-sm"
+              className="flex md:hidden h-7 w-7 max-[400px]:h-7 max-[400px]:w-7 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-ocean text-white shadow-sm"
               aria-label="Tanya AI Asisten"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className="w-[14px] h-[14px] sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
             </button>

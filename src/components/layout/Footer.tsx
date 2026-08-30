@@ -10,9 +10,9 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-sand-200 bg-sand-50">
-      <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 lg:px-8 md:py-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-sand-200 bg-sand-50 overflow-hidden">
+      <div className="mx-auto max-w-[1400px] px-3 max-[400px]:px-3 sm:px-4 py-8 max-[400px]:py-6 sm:py-10 md:px-6 lg:px-8 md:py-12">
+        <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div>
             <p className="font-display text-xl tracking-[0.2em]">{siteConfig.brand.shortName}</p>

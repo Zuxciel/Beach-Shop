@@ -20,7 +20,7 @@ export default function ContactPage() {
   const hours = siteConfig.brand.operationalHours;
 
   return (
-    <div className="mx-auto max-w-[1000px] px-4 md:px-6 py-8 md:py-10">
+    <div className="mx-auto max-w-[1000px] px-3 max-[400px]:px-2.5 sm:px-4 md:px-6 py-6 max-[400px]:py-4 sm:py-8 md:py-10 overflow-hidden">
       {/* Page Header */}
       <div className="text-center sm:text-left">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">

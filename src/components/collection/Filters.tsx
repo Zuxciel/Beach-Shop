@@ -44,33 +44,33 @@ export function Filters({ sort, onSort }: Props) {
         <div className="sticky top-[80px] rounded-2xl border border-sand-200 bg-white p-6">{content}</div>
       </aside>
 
-      {/* Mobile / tablet triggers */}
-      <div className="flex items-center gap-2 lg:hidden">
-        <button onClick={() => setMobileOpen(true)} className="flex flex-1 items-center justify-center gap-2 rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm font-medium md:hidden">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 6h18M7 12h10M10 18h4" /></svg>
+      {/* Mobile / tablet triggers — no horizontal scroll, wrap on <400px */}
+      <div className="flex items-center gap-2 lg:hidden min-w-0">
+        <button onClick={() => setMobileOpen(true)} className="flex flex-1 min-w-0 items-center justify-center gap-1.5 sm:gap-2 rounded-full border border-sand-200 bg-white px-3 max-[400px]:px-2.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium whitespace-nowrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="sm:w-4 sm:h-4 shrink-0"><path d="M3 6h18M7 12h10M10 18h4" /></svg>
           Info
         </button>
-        <button onClick={() => setMobileOpen(true)} className="hidden items-center gap-2 rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm font-medium md:flex">
+        <button onClick={() => setMobileOpen(true)} className="hidden items-center gap-2 rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm font-medium md:flex shrink-0">
           Info & Urutkan
         </button>
-        <select value={sort} onChange={(e) => onSort(e.target.value)} className="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm md:hidden">
+        <select value={sort} onChange={(e) => onSort(e.target.value)} className="rounded-full border border-sand-200 bg-white px-3 max-[400px]:px-2 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm min-w-0 flex-1 max-w-[45%]">
           <option value="featured">Unggulan</option>
           <option value="name-asc">A → Z</option>
           <option value="name-desc">Z → A</option>
         </select>
       </div>
 
-      {/* Mobile drawer slide-up */}
+      {/* Mobile drawer slide-up — full width on <400px, no horizontal scroll */}
       <div className={cn("fixed inset-0 z-40 transition md:hidden", mobileOpen ? "visible" : "invisible")}>
         <div className={cn("absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity", mobileOpen ? "opacity-100" : "opacity-0")} onClick={() => setMobileOpen(false)} />
-        <div className={cn("absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-cream p-6 shadow-2xl transition-transform", mobileOpen ? "translate-y-0" : "translate-y-full")}>
-          <div className="mx-auto h-1.5 w-10 rounded-full bg-sand-200" />
-          <div className="mt-6 flex items-center justify-between">
-            <h3 className="font-display text-xl">Info</h3>
-            <button onClick={() => setMobileOpen(false)} className="flex h-9 w-9 items-center justify-center rounded-full bg-sand-100">✕</button>
+        <div className={cn("absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-cream p-4 max-[400px]:p-4 sm:p-6 shadow-2xl transition-transform", mobileOpen ? "translate-y-0" : "translate-y-full")}>
+          <div className="mx-auto h-1.5 w-8 sm:w-10 rounded-full bg-sand-200" />
+          <div className="mt-4 sm:mt-6 flex items-center justify-between gap-2">
+            <h3 className="font-display text-lg sm:text-xl break-words">Info</h3>
+            <button onClick={() => setMobileOpen(false)} className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-sand-100">✕</button>
           </div>
-          <div className="mt-6">{content}</div>
-          <button onClick={() => setMobileOpen(false)} className="mt-6 w-full rounded-full bg-ocean py-3 text-sm font-medium text-white">Tutup</button>
+          <div className="mt-4 sm:mt-6">{content}</div>
+          <button onClick={() => setMobileOpen(false)} className="mt-4 sm:mt-6 w-full rounded-full bg-ocean py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white">Tutup</button>
         </div>
       </div>
 

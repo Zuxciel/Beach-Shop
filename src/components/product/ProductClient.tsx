@@ -27,7 +27,7 @@ export function ProductClient({ product }: { product: Product }) {
   };
 
   return (
-    <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8 py-4 md:py-8">
+    <div className="mx-auto max-w-[1400px] px-3 max-[400px]:px-2.5 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-8 overflow-hidden">
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-4 md:mb-6 text-xs text-stone-500">
         <ol className="flex flex-wrap items-center gap-1.5">
@@ -50,18 +50,18 @@ export function ProductClient({ product }: { product: Product }) {
         </ol>
       </nav>
 
-      <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
         <Gallery images={product.images} title={product.title} />
 
-        {/* Details - sticky on desktop */}
-        <div className="lg:sticky lg:top-[80px] lg:h-fit lg:pl-4">
+        {/* Details — 2 kolom di tablet (768-1024) & desktop (>1024), sticky hanya di desktop sesuai spec */}
+        <div className="lg:sticky lg:top-[80px] lg:h-fit md:pl-4 lg:pl-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
             {siteConfig.brand.name} • {product.productType}
           </p>
-          <h1 className="mt-1.5 font-display text-2xl sm:text-3xl lg:text-[34px] leading-tight text-charcoal">
+          <h1 className="mt-1.5 font-display text-xl max-[400px]:text-[20px] sm:text-2xl md:text-3xl lg:text-[34px] leading-tight text-charcoal break-words">
             {product.title}
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-stone-500">{product.material}</p>
+          <p className="mt-1 text-xs sm:text-sm text-stone-500 break-words">{product.material}</p>
 
           {/* Harga Referensi */}
           <div className="mt-3 flex flex-wrap items-baseline gap-2.5">

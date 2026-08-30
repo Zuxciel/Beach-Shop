@@ -14,7 +14,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 flex h-16 items-center justify-around border-t border-sand-200 bg-cream/95 backdrop-blur-lg px-2 md:hidden"
+    <nav className="fixed inset-x-0 bottom-0 z-40 flex h-16 max-[400px]:h-14 items-center justify-around border-t border-sand-200 bg-cream/95 backdrop-blur-lg px-1 max-[400px]:px-1 sm:px-2 md:hidden overflow-hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       {items.map((it) => {
@@ -26,18 +26,18 @@ export function BottomNav() {
           <Link
             key={it.href}
             href={it.href}
-            className={`flex flex-col items-center justify-center gap-0.5 rounded-xl px-4 py-1.5 transition-colors ${
+            className={`flex flex-col items-center justify-center gap-0.5 rounded-xl px-2 max-[400px]:px-2 sm:px-4 py-1 sm:py-1.5 transition-colors min-w-0 flex-1 ${
               active ? "text-ocean" : "text-stone-400 active:text-stone-600"
             }`}
           >
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth={active ? 2 : 1.5}
-              className="transition-all"
+              className="transition-all sm:w-5 sm:h-5 shrink-0"
             >
               {it.icon === "home" && <path d="M3 10 12 3l9 7v10H3V10Z" />}
               {it.icon === "shop" && (
@@ -59,7 +59,7 @@ export function BottomNav() {
                 </>
               )}
             </svg>
-            <span className={`text-[10px] font-medium ${active ? "font-semibold" : ""}`}>
+            <span className={`text-[9px] max-[400px]:text-[9px] sm:text-[10px] font-medium truncate max-w-full ${active ? "font-semibold" : ""}`}>
               {it.label}
             </span>
           </Link>
