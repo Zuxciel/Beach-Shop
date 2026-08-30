@@ -4,6 +4,7 @@ import { getCollectionByHandle, collections } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 import { CollectionClient } from "./CollectionClient";
+import { siteConfig } from "@/lib/site-config";
 
 type Props = { params: Promise<{ handle: string }> };
 
@@ -15,8 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
   const col = getCollectionByHandle(handle);
   if (!col) return {};
-  const title = `${col.title} | Coastal Aesthetic`;
-  const description = col.description + " Handcrafted, eco-friendly, free shipping over $50.";
+  const title = `${col.title} | ${siteConfig.brand.name}`;
+  const description = `${col.description} Handcrafted, eco-friendly, ${siteConfig.shipping.note}.`;
   return {
     title,
     description: description.slice(0, 155),
@@ -37,8 +38,8 @@ export default async function CollectionPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: `https://coastal-aesthetic.vercel.app/` },
-      { "@type": "ListItem", position: 2, name: collection.title, item: `https://coastal-aesthetic.vercel.app/collections/${handle}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteConfig.brand.url}/` },
+      { "@type": "ListItem", position: 2, name: collection.title, item: `${siteConfig.brand.url}/collections/${handle}` },
     ],
   };
 
@@ -60,7 +61,7 @@ export default async function CollectionPage({ params }: Props) {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">Collection</p>
             <h1 className="mt-2 font-display text-3xl md:text-4xl">{collection.title}</h1>
             <div className="mt-3 text-sm leading-6 text-stone-600 [&_p]:m-0" dangerouslySetInnerHTML={{ __html: collection.descriptionHtml }} />
-            <p className="mt-4 text-xs text-stone-500">{products.length} products • Free shipping over $50</p>
+            <p className="mt-4 text-xs text-stone-500">{products.length} products • {siteConfig.shipping.note}</p>
           </div>
           {collection.image && (
             <div className="relative h-64 md:h-auto min-h-[280px]">

@@ -29,40 +29,45 @@ export function Gallery({ images, title }: { images: ProductImage[]; title: stri
           <span className="absolute left-4 top-4 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white backdrop-blur">5s loop • beach setting</span>
         )}
 
-        {/* Prev/next mobile */}
-        <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-3 md:hidden">
-          <button onClick={() => setActive((a) => (a - 1 + images.length) % images.length)} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow">‹</button>
-          <button onClick={() => setActive((a) => (a + 1) % images.length)} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow">›</button>
-        </div>
-
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">
-          {images.map((_, i) => (
-            <span key={i} className={`h-1.5 w-6 rounded-full transition ${i === active ? "bg-white" : "bg-white/40"}`} />
-          ))}
-        </div>
+        {/* Prev/next mobile — hanya jika >1 foto */}
+        {images.length > 1 && (
+          <>
+            <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-3 md:hidden">
+              <button onClick={() => setActive((a) => (a - 1 + images.length) % images.length)} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow">‹</button>
+              <button onClick={() => setActive((a) => (a + 1) % images.length)} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow">›</button>
+            </div>
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">
+              {images.map((_, i) => (
+                <span key={i} className={`h-1.5 w-6 rounded-full transition ${i === active ? "bg-white" : "bg-white/40"}`} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
-      {/* Thumbnails */}
-      <div className="hidden gap-3 overflow-x-auto md:flex">
-        {images.map((img, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 transition ${i === active ? "border-ocean" : "border-transparent hover:border-sand-200"}`}
-          >
-            <Image src={img.url} alt={img.altText} fill className="object-cover" sizes="80px" />
-          </button>
-        ))}
-      </div>
-
-      {/* Swipeable carousel on mobile - also show as dots above but keep thumbnails swipeable */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide md:hidden">
-        {images.map((img, i) => (
-          <button key={i} onClick={() => setActive(i)} className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg ${i === active ? "ring-2 ring-ocean" : "opacity-70"}`}>
-            <Image src={img.url} alt={img.altText} fill className="object-cover" sizes="64px" />
-          </button>
-        ))}
-      </div>
+      {/* Thumbnails — hanya tampil jika >1 foto, dan hanya 1 thumbnail jika 1 foto */}
+      {images.length > 1 && (
+        <>
+          <div className="hidden gap-3 overflow-x-auto md:flex">
+            {images.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 transition ${i === active ? "border-ocean" : "border-transparent hover:border-sand-200"}`}
+              >
+                <Image src={img.url} alt={img.altText} fill className="object-cover" sizes="80px" />
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide md:hidden">
+            {images.map((img, i) => (
+              <button key={i} onClick={() => setActive(i)} className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg ${i === active ? "ring-2 ring-ocean" : "opacity-70"}`}>
+                <Image src={img.url} alt={img.altText} fill className="object-cover" sizes="64px" />
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

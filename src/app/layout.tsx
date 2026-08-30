@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/lib/cart-context";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { CartDrawer } from "@/components/layout/CartDrawer";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { siteConfig } from "@/lib/site-config";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -23,33 +22,32 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Coastal Aesthetic — Sun-Bleached Beach Essentials",
-    template: "%s | Coastal Aesthetic",
+    default: `${siteConfig.brand.name} — ${siteConfig.brand.tagline}`,
+    template: `%s | ${siteConfig.brand.name}`,
   },
   description:
-    "Handcrafted straw bags, suede sandals & woven sun hats for slow, sun-filled escapes. Eco-friendly, breathable, boutique-coastal.",
-  metadataBase: new URL("https://coastal-aesthetic.vercel.app"),
+    "Easthtic of Indonesia — katalog identitas ilustratif bertema pantai: 8 referensi koleksi untuk gambaran umum. Foto & deskripsi ilustrasi, konfirmasi via WhatsApp.",
+  metadataBase: new URL(siteConfig.brand.url),
   openGraph: {
-    title: "Coastal Aesthetic — Sun-Bleached Beach Essentials",
-    description: "Straw bags, suede sandals & woven hats — handcrafted for the coast.",
+    title: `${siteConfig.brand.name} — ${siteConfig.brand.tagline}`,
+    description: "Katalog identitas Easthtic — ilustrasi referensi koleksi bertema pantai. Foto dapat berbeda dengan ketersediaan aktual.",
     type: "website",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable} h-full antialiased`}>
+    <html lang="id" className={`${cormorant.variable} ${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <CartProvider>
-          <AnnouncementBar />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CartDrawer />
-          <BottomNav />
-          {/* padding for bottom nav on mobile */}
-          <div className="h-[64px] md:hidden" aria-hidden />
-        </CartProvider>
+        <AnnouncementBar />
+        <Header />
+        <main className="flex-1">{children}</main>
+        <div className="border-t border-sand-200 bg-sand-50 px-4 py-3 text-center text-[11px] leading-4 text-stone-500">
+          <p>Disclaimer: Seluruh foto, deskripsi, harga & diskon di situs ini bersifat ilustrasi katalog identitas, bukan penawaran mengikat. Detail aktual (bahan, warna, ukuran, ketersediaan, harga) dapat bervariasi. Hubungi WhatsApp untuk konfirmasi terbaru sebelum melakukan pemesanan atau kerjasama.</p>
+        </div>
+        <Footer />
+        <BottomNav />
+        <div className="h-[64px] md:hidden" aria-hidden />
       </body>
     </html>
   );

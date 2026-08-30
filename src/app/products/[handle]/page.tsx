@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getProductByHandle, products } from "@/lib/data";
 import { ProductClient } from "@/components/product/ProductClient";
 import { generateProductSeoTitle, generateMetaDescription } from "@/lib/utils";
+import { siteConfig } from "@/lib/site-config";
 
 type Props = { params: Promise<{ handle: string }> };
 
@@ -44,13 +45,13 @@ export default async function ProductPage({ params }: Props) {
     name: product.title,
     image: product.images.map((i) => i.url),
     description: product.description,
-    brand: { "@type": "Brand", name: "Coastal Aesthetic" },
+    brand: { "@type": "Brand", name: siteConfig.brand.name },
     offers: {
       "@type": "Offer",
       price,
       priceCurrency: currency,
       availability,
-      url: `https://coastal-aesthetic.vercel.app/products/${handle}`,
+      url: `${siteConfig.brand.url}/products/${handle}`,
       shippingDetails: {
         "@type": "OfferShippingDetails",
         shippingRate: { "@type": "MonetaryAmount", value: "0", currency },
@@ -73,9 +74,9 @@ export default async function ProductPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://coastal-aesthetic.vercel.app/" },
-      { "@type": "ListItem", position: 2, name: product.category, item: `https://coastal-aesthetic.vercel.app/collections/${product.category === "bags" ? "beach-bags" : product.category}` },
-      { "@type": "ListItem", position: 3, name: product.title, item: `https://coastal-aesthetic.vercel.app/products/${handle}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteConfig.brand.url}/` },
+      { "@type": "ListItem", position: 2, name: product.category, item: `${siteConfig.brand.url}/collections/${product.category === "bags" ? "beach-bags" : product.category}` },
+      { "@type": "ListItem", position: 3, name: product.title, item: `${siteConfig.brand.url}/products/${handle}` },
     ],
   };
 
