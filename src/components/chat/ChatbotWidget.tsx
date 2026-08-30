@@ -156,13 +156,13 @@ function InChatInquiryForm({
       </div>
 
       <div>
-        <label className="text-[10px] font-medium text-stone-600">No. WhatsApp / Email *</label>
+        <label className="text-[10px] font-medium text-stone-600">Email *</label>
         <input
-          type="text"
+          type="email"
           value={contact}
           onChange={(e) => setContact(e.target.value)}
           required
-          placeholder="08123456789 atau email@anda.com"
+          placeholder="email@anda.com"
           className="mt-0.5 w-full rounded-lg border border-sand-200 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
         />
       </div>

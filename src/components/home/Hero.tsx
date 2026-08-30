@@ -2,75 +2,93 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
 
 export function Hero() {
   const openChat = () => {
     window.dispatchEvent(
       new CustomEvent("open-aesthetic-chat", {
-        detail: { message: "Halo! Saya ingin tahu lebih banyak tentang koleksi tas dan topi pantai Aesthetic of Indonesia." },
+        detail: { message: "Halo! Saya ingin konsultasi rekomendasi koleksi tas dan aksesori pantai Aesthetic of Indonesia." },
       })
     );
   };
 
   return (
-    <section className="relative overflow-hidden bg-sand-100">
-      <div className="absolute inset-0">
+    <section className="relative overflow-hidden bg-[#faf7f2]">
+      {/* Background Image with bespoke editorial gradient */}
+      <div className="absolute inset-0 select-none">
         <Image
           src="/img/Beach1.jpg"
-          alt="Pantai Bali dengan tas anyaman Aesthetic of Indonesia dan topi pantai"
+          alt="Pantai Bali dengan tas anyaman Aesthetic of Indonesia"
           fill
           priority
-          className="object-cover"
+          className="object-cover object-center scale-[1.02]"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#fdfbf7]/95 via-[#fdfbf7]/75 to-transparent md:from-[#fdfbf7]/85 md:via-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+        {/* Multilayered cinematic gradient: clear text legibility while keeping sea vibrancy */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#faf7f2] via-[#faf7f2]/70 to-[#faf7f2]/30 md:bg-gradient-to-r md:from-[#faf7f2] md:via-[#faf7f2]/85 md:to-transparent" />
+        <div className="absolute inset-0 bg-black/5" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[480px] max-[400px]:min-h-[440px] max-w-[1400px] items-center px-3 max-[400px]:px-3 sm:px-4 py-10 max-[400px]:py-8 sm:py-16 md:min-h-[640px] md:px-6 lg:px-8 md:py-20">
-        <div className="max-w-[640px] min-w-0 w-full">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-2.5 max-[400px]:px-2 py-1 text-[10px] max-[400px]:text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-ocean shadow-sm backdrop-blur max-w-full">
-            <span className="truncate">Katalog Koleksi • Bali Inspired</span>
-          </p>
-          {/* Hero headline — desktop card untuk keterbacaan, tracking & leading diperbaiki */}
-          <div className="mt-3 sm:mt-4 rounded-2xl md:rounded-3xl md:bg-white/75 md:backdrop-blur-md md:shadow-sm md:border md:border-white/50 md:p-6 lg:p-8 md:-ml-2">
-            <h1 className="font-display font-light leading-[0.95] md:leading-[0.92] tracking-[-0.03em] text-charcoal text-[32px] max-[400px]:text-[28px] sm:text-[42px] md:text-[56px] lg:text-[64px] break-words">
-              <span className="block">Aesthetic</span>
-              <span className="block font-normal italic text-terracotta-dark mt-0.5 md:mt-1">of Indonesia</span>
-            </h1>
-            <p className="mt-3 font-medium text-xs max-[400px]:text-xs sm:text-sm tracking-wide text-stone-700 break-words">
-              {siteConfig.brand.tagline}
-            </p>
-            <p className="mt-2 sm:mt-3 max-w-[520px] text-sm max-[400px]:text-[13px] leading-5 sm:leading-6 text-stone-700/90 break-words">
-              Kurasi karya anyaman tas pantai, topi, dan sandal bernuansa alami yang memadukan tradisi perajin lokal Bali dengan estetika liburan modern.
-            </p>
+      <div className="relative mx-auto flex min-h-[560px] max-w-[1400px] items-center px-4 sm:px-6 lg:px-12 py-16 sm:py-24 md:min-h-[640px]">
+        <div className="max-w-xl">
+          {/* Eyebrow badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-sand-300/80 bg-sand-50/90 px-3.5 py-1 backdrop-blur-sm shadow-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-terracotta animate-pulse" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-charcoal/80">
+              Koleksi Pesisir Bali • 2026
+            </span>
           </div>
-          <div className="mt-6 sm:mt-8 flex flex-col max-[400px]:flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3">
-            <Link href="/collections/shop-all" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto px-6 sm:px-8 shadow-sm text-sm sm:text-base">
-                Lihat Koleksi
-              </Button>
+
+          {/* Hero Typography */}
+          <h1 className="mt-5 font-display text-[44px] sm:text-[56px] md:text-[68px] font-normal leading-[0.95] tracking-tight text-charcoal">
+            Aesthetic
+            <span className="block italic text-terracotta-dark font-light mt-1">
+              of Indonesia
+            </span>
+          </h1>
+
+          <p className="mt-4 text-sm sm:text-base font-normal leading-relaxed text-stone-700 max-w-lg">
+            Kurasi karya anyaman tas pantai, topi jerami, dan sandal pesisir berbahan rotan alami yang memadukan tradisi perajin lokal Bali dengan keanggunan gaya liburan tropis.
+          </p>
+
+          {/* Action CTAs */}
+          <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <Link
+              href="/collections/shop-all"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ocean px-8 text-sm font-medium text-white shadow-md shadow-ocean/20 transition-all duration-200 hover:bg-[#0f2422] hover:shadow-lg"
+            >
+              <span>Jelajahi Koleksi</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
             </Link>
+
             <button
               onClick={openChat}
-              className="inline-flex h-11 sm:h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-charcoal/15 bg-white/85 px-6 sm:px-8 text-sm font-medium backdrop-blur hover:bg-white transition-colors shadow-sm text-charcoal"
+              className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-sand-300 bg-sand-50/90 px-7 text-sm font-medium text-charcoal shadow-xs backdrop-blur-sm transition-all duration-200 hover:bg-white hover:border-ocean/40"
             >
-              <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0"></span>
-              Tanya AI Asisten
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              <span>Tanya AI Asisten</span>
             </button>
           </div>
-          <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-stone-600">
-            <span className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-              <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-terracotta shrink-0" /> 8 Koleksi Pilihan
-            </span>
-            <span className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-              <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-ocean shrink-0" /> AI Chatbot Aktif
-            </span>
-            <span className="hidden md:flex items-center gap-2 whitespace-nowrap">
-              <span className="h-2 w-2 rounded-full bg-stone-400" /> Pengrajin Bali
-            </span>
+
+          {/* Key Trust & Highlight Badges */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-sand-300/60 pt-5 text-xs text-stone-600">
+            <div className="flex items-center gap-2">
+              <span className="font-display text-sm font-semibold text-charcoal">08</span>
+              <span className="tracking-wide">Koleksi Pilihan</span>
+            </div>
+            <div className="hidden sm:block text-sand-300">•</div>
+            <div className="flex items-center gap-2">
+              <span className="text-terracotta">✦</span>
+              <span className="tracking-wide">100% Serat Alami Bali</span>
+            </div>
+            <div className="hidden sm:block text-sand-300">•</div>
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-600">●</span>
+              <span className="tracking-wide">Layanan Chat 24 Jam</span>
+            </div>
           </div>
         </div>
       </div>

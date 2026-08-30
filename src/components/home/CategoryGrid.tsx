@@ -2,72 +2,96 @@ import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 
-const tiles = [
+const categories = [
   {
     handle: "beach-bags",
-    title: "Tas Pantai",
-    subtitle: "5 Koleksi Anyaman",
+    title: "Tas Anyaman Pantai",
+    subtitle: "5 Koleksi Rotan & Pandan",
     image: "/img/RBag.jpg",
-    alt: `Tas Pantai ${siteConfig.brand.name}`,
+    alt: `Koleksi Tas Pantai ${siteConfig.brand.name}`,
+    tag: "Koleksi Utama",
   },
   {
     handle: "footwear",
-    title: "Sandal Pantai",
-    subtitle: "2 Koleksi Nyaman",
+    title: "Sandal Pesisir Tropis",
+    subtitle: "2 Koleksi Nyaman & Empuk",
     image: "/img/Foot1.jpeg",
-    alt: `Sandal Pantai ${siteConfig.brand.name}`,
+    alt: `Koleksi Sandal Pantai ${siteConfig.brand.name}`,
+    tag: "Alas Kaki",
   },
   {
     handle: "sun-hats",
-    title: "Topi Pantai",
-    subtitle: "Koleksi Pelindung UV",
+    title: "Topi Pelindung Surya",
+    subtitle: "Serat Jerami Teduh UV",
     image: "/img/OBHat.jpeg",
-    alt: `Topi Pantai ${siteConfig.brand.name}`,
+    alt: `Koleksi Topi Pantai ${siteConfig.brand.name}`,
+    tag: "Aksesori",
   },
 ];
 
 export function CategoryGrid() {
   return (
-    <section className="mx-auto max-w-[1400px] px-3 max-[400px]:px-3 sm:px-4 py-10 max-[400px]:py-8 sm:py-14 md:px-6 lg:px-8 md:py-20 overflow-hidden">
-      <div className="flex items-end justify-between gap-3 sm:gap-4">
-        <div className="min-w-0 flex-1">
-          <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark truncate">
-            Kategori {siteConfig.brand.shortName}
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12 py-16 sm:py-24">
+      {/* Section Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-sand-200 pb-6">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-terracotta-dark">
+            Katalog Kategori
           </p>
-          <h2 className="mt-1.5 sm:mt-2 font-display text-2xl max-[400px]:text-xl sm:text-3xl md:text-4xl text-charcoal break-words">Jelajahi Koleksi</h2>
+          <h2 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl text-charcoal">
+            Jelajahi Koleksi Anyaman
+          </h2>
         </div>
         <Link
           href="/collections/shop-all"
-          className="hidden shrink-0 text-sm font-medium underline decoration-sand-300 underline-offset-4 hover:decoration-ocean md:block"
+          className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium uppercase tracking-wider text-charcoal hover:text-ocean transition-colors"
         >
-          Lihat semua katalog →
+          <span>Lihat Semua Koleksi</span>
+          <span className="transition-transform group-hover:translate-x-1">→</span>
         </Link>
       </div>
 
-      <div className="mt-6 sm:mt-8 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3 md:gap-6">
-        {tiles.map((t) => (
+      {/* Category Cards Grid */}
+      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-8">
+        {categories.map((cat, idx) => (
           <Link
-            key={t.handle}
-            href={`/collections/${t.handle}`}
-            className="group relative overflow-hidden rounded-2xl bg-sand-100 aspect-[4/5] max-[400px]:aspect-[3/4] md:aspect-[3/4] shadow-sm min-w-0"
+            key={cat.handle}
+            href={`/collections/${cat.handle}`}
+            className="group relative flex flex-col overflow-hidden rounded-xl bg-sand-50 border border-sand-200/80 shadow-xs transition-all duration-300 hover:shadow-md hover:border-ocean/30"
           >
-            <Image
-              src={t.image}
-              alt={t.alt}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 33vw"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
-              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-white/80 truncate">
-                {t.subtitle}
-              </p>
-              <h3 className="font-display text-xl sm:text-2xl text-white break-words">{t.title}</h3>
-              <span className="mt-2 sm:mt-3 inline-flex h-8 sm:h-9 items-center justify-center rounded-full bg-white px-4 sm:px-5 text-xs sm:text-sm font-medium text-charcoal opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 shadow">
-                Lihat Koleksi →
-              </span>
+            {/* Image Container */}
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-sand-100">
+              <Image
+                src={cat.image}
+                alt={cat.alt}
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                loading={idx === 0 ? "eager" : "lazy"}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/15 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              
+              {/* Category Tag */}
+              <div className="absolute top-4 left-4">
+                <span className="rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-charcoal backdrop-blur-sm shadow-xs">
+                  {cat.tag}
+                </span>
+              </div>
+
+              {/* Bottom Content Overlay */}
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-sand-200">
+                  {cat.subtitle}
+                </p>
+                <h3 className="mt-1 font-display text-2xl sm:text-3xl text-white font-normal leading-tight">
+                  {cat.title}
+                </h3>
+                
+                <div className="mt-4 flex items-center gap-2 text-xs font-medium text-sand-100 opacity-90 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
+                  <span>Buka Koleksi</span>
+                  <span>→</span>
+                </div>
+              </div>
             </div>
           </Link>
         ))}

@@ -9,18 +9,17 @@ import { ugcPosts as fallback } from "@/lib/data";
 export function UgcGrid() {
   const [posts, setPosts] = useState<UGCPost[]>(fallback);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchIG = async () => {
     setLoading(true);
-    setError(null);
     try {
       const res = await fetch("/api/ugc", { cache: "no-store" });
       const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message || "Gagal memuat IG feed");
-      setPosts(data.data);
-    } catch (e: any) {
-      setError(e.message || "Gagal memuat IG, menampilkan kurasi lokal.");
+      if (res.ok && data.success && data.data) {
+        setPosts(data.data);
+      }
+    } catch {
+      // Keep fallback safely
     } finally {
       setLoading(false);
     }
@@ -31,58 +30,53 @@ export function UgcGrid() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-[1400px] px-4 py-14 md:px-6 lg:px-8 md:py-20">
-      <div className="flex flex-col items-center text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
-          #{siteConfig.brand.instagram}
-        </p>
-        <h2 className="mt-2 font-display text-3xl md:text-4xl text-charcoal">Gaya Pesisir Tropis</h2>
-        <p className="mt-3 max-w-xl text-sm leading-6 text-stone-600">
-          Inspirasi padu-padan tas anyaman dan aksesori pantai {siteConfig.brand.name} di pesisir pulau dewata.
-        </p>
-        <button
-          onClick={fetchIG}
-          disabled={loading}
-          className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-4 py-1.5 text-xs font-medium hover:border-ocean transition disabled:opacity-60"
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-12 py-16 sm:py-24">
+      {/* Section Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-sand-200 pb-6">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-terracotta-dark">
+            Komunitas & Gaya Hidup
+          </p>
+          <h2 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl text-charcoal">
+            Inspirasi Pesisir Tropis
+          </h2>
+        </div>
+        <a
+          href={`https://instagram.com/${siteConfig.brand.instagram}`}
+          target="_blank"
+          rel="noopener"
+          className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium uppercase tracking-wider text-charcoal hover:text-ocean transition-colors"
         >
-          {loading ? "Memuat API..." : "↻ Refresh Feed Instagram"}
-        </button>
-        {error && <p className="mt-2 text-xs text-clay">{error}</p>}
+          <span>@{siteConfig.brand.instagram}</span>
+          <span className="transition-transform group-hover:translate-x-1">↗</span>
+        </a>
       </div>
 
-      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+      {/* 4-Column Image Grid */}
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
         {posts.map((post) => (
           <div
             key={post.id}
-            className="group relative overflow-hidden rounded-2xl bg-sand-100 aspect-square shadow-sm"
+            className="group relative overflow-hidden rounded-xl bg-sand-100 aspect-square border border-sand-200/80 shadow-xs"
           >
             <Image
               src={post.imageUrl}
               alt={post.altText}
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              sizes="(max-width:768px) 50vw, 25vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              sizes="(max-width: 640px) 50vw, 25vw"
               loading="lazy"
               unoptimized={post.imageUrl.startsWith("/")}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-            <div className="absolute inset-x-0 bottom-0 p-3.5">
-              <p className="text-xs font-semibold text-white">{post.author}</p>
-              <p className="text-[11px] text-white/90 line-clamp-2 mt-0.5">{post.caption}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-60 group-hover:opacity-85 transition-opacity" />
+            <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 text-white">
+              <p className="text-xs font-semibold text-sand-100">{post.author}</p>
+              <p className="text-[11px] text-white/90 line-clamp-2 mt-0.5 font-light leading-snug">
+                {post.caption}
+              </p>
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="mt-8 flex justify-center">
-        <a
-          href={`https://instagram.com/${siteConfig.brand.instagram}`}
-          target="_blank"
-          rel="noopener"
-          className="inline-flex h-11 items-center justify-center rounded-full border border-sand-200 bg-white px-6 text-sm font-medium hover:border-ocean hover:text-ocean transition shadow-sm"
-        >
-          Ikuti @{siteConfig.brand.instagram} di Instagram
-        </a>
       </div>
     </section>
   );
