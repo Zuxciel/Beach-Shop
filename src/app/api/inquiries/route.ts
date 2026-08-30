@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import { siteConfig } from "@/lib/site-config";
 
-// Rate limiter sederhana in-memory (mencegah spam submission)
+// Rate limiter sederhana in-memory
 const ipRateLimit = new Map<string, { count: number; resetAt: number }>();
 
 export async function POST(req: Request) {
   try {
-    const ip = req.headers.get("x-forwarded-for") || "anonymous";
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "anonymous";
     const now = Date.now();
 
-    // Batasi maksimal 5 submission per 2 menit per IP
     const rateData = ipRateLimit.get(ip) || { count: 0, resetAt: now + 120000 };
     if (now > rateData.resetAt) {
       rateData.count = 0;
@@ -17,10 +16,7 @@ export async function POST(req: Request) {
     }
     if (rateData.count >= 5) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Terlalu banyak permintaan. Silakan tunggu 2 menit sebelum mengirim kembali.",
-        },
+        { success: false, message: "Terlalu banyak permintaan. Silakan tunggu 2 menit sebelum mengirim kembali." },
         { status: 429 }
       );
     }
@@ -45,35 +41,69 @@ export async function POST(req: Request) {
       notes: notes ? String(notes).trim().slice(0, 500) : "",
       product: product || null,
       type,
-      status: "new", // "new" | "processed" | "completed" | "cancelled"
+      status: "new" as const,
       createdAt: new Date().toISOString(),
-      source: "ai_chatbot",
+      source: "ai_chatbot" as const,
     };
 
-    console.log("[INQUIRY RECEIVED FOR ADMIN PANEL]", inquiryData);
-
-    // Simpan ke Firebase Realtime Database di node terstruktur /inquiries
+    // Firebase - wajib ada, kalau tidak ada jangan pura-pura sukses
     const dbUrl =
       siteConfig.firebase.databaseUrl ||
       process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL ||
       process.env.FIREBASE_DATABASE_URL;
 
-    if (dbUrl) {
-      const cleanUrl = dbUrl.replace(/\/$/, "");
-      await fetch(`${cleanUrl}/inquiries/${inquiryId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(inquiryData),
-      });
-
-      // Update counter ringkas harian (efisien, hanya 1 baris)
-      const dateKey = new Date().toISOString().split("T")[0];
-      await fetch(`${cleanUrl}/stats/${dateKey}/totalInquiries.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ".sv": { "increment": 1 } }),
-      }).catch(() => {});
+    if (!dbUrl || dbUrl.trim() === "") {
+      console.error("[INQUIRY] Firebase DATABASE_URL belum dikonfigurasi! Set NEXT_PUBLIC_FIREBASE_DATABASE_URL di .env / Vercel Env.");
+      // Tetap log tapi beri tahu client bahwa panel tidak akan terisi
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Konfigurasi Firebase belum lengkap: NEXT_PUBLIC_FIREBASE_DATABASE_URL belum di-set di server. Data tidak bisa disimpan ke Realtime Database. Cek .env atau Vercel Environment Variables.",
+          inquiryId,
+          debug: "missing_database_url",
+        },
+        { status: 503 }
+      );
     }
+
+    const cleanUrl = dbUrl.replace(/\/$/, "");
+
+    // Tulis inquiry
+    const putRes = await fetch(`${cleanUrl}/inquiries/${inquiryId}.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inquiryData),
+    });
+
+    if (!putRes.ok) {
+      const errText = await putRes.text().catch(() => "");
+      console.error("[INQUIRY] Gagal PUT ke Firebase:", putRes.status, putRes.statusText, errText);
+      // Cek kemungkinan rules
+      if (putRes.status === 401 || putRes.status === 403) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Gagal menyimpan ke Firebase (HTTP ${putRes.status}): Rules menolak write. Atur di Firebase Console > Realtime Database > Rules: { "rules": { "inquiries": { ".write": true, ".read": "auth != null" } } } atau pakai auth token. Detail: ${errText.slice(0, 200)}`,
+            inquiryId,
+          },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json(
+        { success: false, message: `Gagal menyimpan ke Firebase (HTTP ${putRes.status}). Cek DATABASE_URL & Rules.`, inquiryId },
+        { status: 500 }
+      );
+    }
+
+    console.log("[INQUIRY SAVED]", inquiryId, "->", `${cleanUrl}/inquiries/${inquiryId}.json`);
+
+    // Stats harian - non-kritis, jangan gagalkan request kalau ini error
+    const dateKey = new Date().toISOString().split("T")[0];
+    fetch(`${cleanUrl}/stats/${dateKey}/totalInquiries.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(1), // set 1 dulu, nanti bisa di-aggregate; increment server via .sv tidak work di REST tanpa auth
+    }).catch((e) => console.warn("[Stats] non-kritis gagal:", e));
 
     return NextResponse.json({
       success: true,
@@ -83,7 +113,7 @@ export async function POST(req: Request) {
   } catch (err: any) {
     console.error("[Inquiry API Error]", err);
     return NextResponse.json(
-      { success: false, message: "Gagal menyimpan data ke panel pesanan." },
+      { success: false, message: err?.message || "Gagal menyimpan data ke panel pesanan." },
       { status: 500 }
     );
   }
