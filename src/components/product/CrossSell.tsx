@@ -4,13 +4,20 @@ import { ProductCard } from "@/components/ui/ProductCard";
 export function CrossSell({ currentHandle }: { currentHandle: string }) {
   const items = products.filter((p) => p.handle !== currentHandle).slice(0, 4);
   return (
-    <section className="py-10">
-      <h3 className="font-display text-2xl">Complete Your Beach Look</h3>
-      <div className="mt-6 flex gap-4 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory">
+    <section className="py-8 md:py-10 border-t border-sand-200 mt-8">
+      <div className="flex items-baseline justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
+            Rekomendasi Padu-Padan
+          </p>
+          <h3 className="mt-1 font-display text-2xl md:text-3xl text-charcoal">
+            Lengkapi Gaya Pantai Anda
+          </h3>
+        </div>
+      </div>
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
         {items.map((p) => (
-          <div key={p.id} className="min-w-[220px] snap-start md:min-w-0 md:flex-1">
-            <ProductCard product={p} />
-          </div>
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </section>

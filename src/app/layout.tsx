@@ -171,15 +171,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AnnouncementBar />
         <Header />
         <main className="flex-1">{children}</main>
-        <div className="border-t border-sand-200 bg-sand-50 px-4 py-3 text-center text-[11px] leading-4 text-stone-500">
-          <p>
-            {siteConfig.brand.name} — Katalog identitas & referensi gaya bertema pantai. Konsultasikan produk, bahan, dan ketersediaan langsung melalui AI Chatbot kami.
-          </p>
-        </div>
         <Footer />
+        {/* Bottom nav spacer — only on mobile, matches BottomNav height */}
+        <div className="h-16 md:hidden" aria-hidden />
         <BottomNav />
         <ChatbotWidget />
-        <div className="h-[64px] md:hidden" aria-hidden />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

@@ -19,33 +19,35 @@ export function ProductCard({ product }: { product: Product }) {
           height={product.featuredImage.height}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
-          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
-        {/* Badge — menarik */}
+        {/* Badge */}
         {discount ? (
-          <span className="absolute left-3 top-3 rounded-full bg-clay px-2.5 py-1 text-xs font-bold text-white shadow">-{discount}%</span>
+          <span className="absolute left-2 top-2 sm:left-3 sm:top-3 rounded-full bg-clay px-2 py-0.5 text-[10px] sm:text-xs font-bold text-white shadow">-{discount}%</span>
         ) : (
-          <span className="absolute left-3 top-3 rounded-full bg-sand-100 px-2.5 py-1 text-xs font-semibold text-charcoal shadow-sm">Koleksi Pilihan</span>
+          <span className="absolute left-2 top-2 sm:left-3 sm:top-3 rounded-full bg-sand-100/90 backdrop-blur-sm px-2 py-0.5 text-[10px] sm:text-xs font-semibold text-charcoal shadow-sm">Koleksi</span>
         )}
         <div className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/40 to-transparent p-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          <span className="inline-flex h-9 w-full items-center justify-center rounded-full bg-white text-sm font-medium text-charcoal">Lihat Detail</span>
+          <span className="inline-flex h-8 w-full items-center justify-center rounded-full bg-white text-xs sm:text-sm font-medium text-charcoal">Lihat Detail</span>
         </div>
       </Link>
-      <div className="pt-3">
-        <Link href={`/products/${product.handle}`} className="line-clamp-1 font-medium text-charcoal hover:text-ocean transition-colors">
+      <div className="pt-2.5 sm:pt-3">
+        <Link href={`/products/${product.handle}`} className="line-clamp-1 text-sm font-medium text-charcoal hover:text-ocean transition-colors">
           {product.title}
         </Link>
-        <p className="text-xs text-stone-500">Ilustrasi • {product.material ?? product.productType}</p>
+        <p className="text-[11px] text-stone-500 mt-0.5">{product.material ?? product.productType}</p>
         <div className="mt-1 flex items-center gap-2">
           <span className="text-sm font-semibold text-charcoal">{formatPrice(price, currency)}</span>
           {compareAt && (
-            <span className="text-xs text-stone-400 line-through">{formatPrice(compareAt, currency)}</span>
+            <span className="text-[11px] text-stone-400 line-through">{formatPrice(compareAt, currency)}</span>
           )}
         </div>
         {discount ? (
-          <p className="mt-0.5 text-xs font-medium text-clay">Referensi diskon {discount}% • Estimasi hemat {formatPrice((parseFloat(compareAt!) - parseFloat(price)).toString(), currency)}</p>
+          <p className="mt-0.5 text-[10px] sm:text-[11px] font-medium text-clay">
+            Hemat {formatPrice((parseFloat(compareAt!) - parseFloat(price)).toString(), currency)}
+          </p>
         ) : (
-          <p className="mt-0.5 text-[11px] text-stone-400">Harga referensi — konfirmasi via WA</p>
+          <p className="mt-0.5 text-[10px] text-stone-400">Harga referensi katalog</p>
         )}
       </div>
     </div>

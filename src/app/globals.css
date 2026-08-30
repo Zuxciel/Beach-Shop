@@ -19,6 +19,8 @@
   --cream: #fffaf0;
   --charcoal: #2c241b;
   --stone-500: #78716c;
+  /* Bottom nav height for spacing */
+  --bottom-nav-h: 64px;
 }
 
 @theme inline {
@@ -86,4 +88,18 @@ html {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Safe area padding for iOS notch/home bar */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Prevent content jump when chat opens on mobile */
+@media (max-width: 639px) {
+  body.chat-open {
+    overflow: hidden;
+  }
 }
