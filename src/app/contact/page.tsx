@@ -6,7 +6,14 @@ import { NewsletterForm } from "@/components/forms/NewsletterForm";
 
 export const metadata: Metadata = {
   title: `Kontak | ${siteConfig.brand.name}`,
-  description: `Hubungi ${siteConfig.brand.name} — katalog identitas bertema pantai, ilustrasi koleksi, cek ketersediaan via WhatsApp.`,
+  description: `Hubungi ${siteConfig.brand.name} — katalog identitas bertema pantai, ilustrasi koleksi, cek ketersediaan via WhatsApp. Alamat Bali, chat WA ${siteConfig.brand.phone}.`,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: `Kontak | ${siteConfig.brand.name}`,
+    description: `Hubungi ${siteConfig.brand.name} — WA ${siteConfig.brand.phone}, alamat ${siteConfig.brand.address}`,
+    url: `${siteConfig.brand.url}/contact`,
+    type: "website",
+  },
 };
 
 export default function ContactPage() {

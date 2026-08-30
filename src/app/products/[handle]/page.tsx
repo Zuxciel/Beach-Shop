@@ -21,11 +21,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: `/products/${handle}` },
+    keywords: [product.title, product.material ?? "", product.category, product.productType, siteConfig.brand.name].filter(Boolean),
     openGraph: {
       title,
       description,
-      images: [product.featuredImage.url],
+      images: [{ url: product.featuredImage.url, width: 800, height: 1000, alt: product.featuredImage.altText }],
       type: "website",
+      url: `${siteConfig.brand.url}/products/${handle}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [product.featuredImage.url],
     },
   };
 }

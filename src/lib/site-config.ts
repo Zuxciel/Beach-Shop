@@ -11,9 +11,12 @@ export const siteConfig = {
     name: "Easthtic of Indonesia",
     shortName: "EASTHTIC",
     tagline: "Koleksi Kerajinan Pantai — Terinspirasi dari Bali",
-    url: "https://easthtic-of-indonesia.vercel.app",
-    email: "hello@easthtic.id",
-    phone: "+62 812-3456-7890",
+    // Canonical production URL — update VERCEL_URL / deployment links to this
+    url: "https://www.easthtic.my.id",
+    // Apex domain (for redirect / GSC domain property)
+    apexUrl: "https://easthtic.my.id",
+    email: "hello@easthtic.my.id",
+    phone: "+62 821-3087-3525",
     whatsapp: "6282130873525",
     instagram: "easthtic.id",
     address: "Jl. Pantai Kuta No. 88, Bali, Indonesia",

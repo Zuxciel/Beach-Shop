@@ -11,7 +11,20 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: `${siteConfig.brand.name} — ${siteConfig.brand.tagline}`,
   description:
-    "Easthtic of Indonesia — katalog identitas bertema pantai: ilustrasi 8 koleksi untuk referensi visual. Foto ilustrasi, hubungi WhatsApp untuk cek ketersediaan aktual.",
+    "Easthtic of Indonesia — katalog identitas bertema pantai: ilustrasi 8 koleksi tas, topi & sandal untuk referensi visual. Foto ilustrasi, hubungi WhatsApp untuk cek ketersediaan aktual.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `${siteConfig.brand.name} — ${siteConfig.brand.tagline}`,
+    description: "Katalog identitas Easthtic — 8 koleksi bertema pantai untuk referensi visual. Foto ilustrasi, konfirmasi via WhatsApp.",
+    url: siteConfig.brand.url,
+    type: "website",
+    images: [{ url: `${siteConfig.brand.url}/og-image.jpg`, width: 1200, height: 630, alt: "Easthtic of Indonesia — Katalog Pantai" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.brand.name} — ${siteConfig.brand.tagline}`,
+    description: "Katalog identitas 8 koleksi bertema pantai — hubungi WhatsApp untuk info terbaru.",
+  },
 };
 
 export default function HomePage() {
@@ -76,18 +89,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* JSON-LD for organization */}
+      {/* JSON-LD ItemList for 8 collections on homepage for better indexing */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Store",
-            name: siteConfig.brand.name,
-            url: siteConfig.brand.url,
-            logo: `${siteConfig.brand.url}/logo.png`,
-            sameAs: [`https://instagram.com/${siteConfig.brand.instagram}`],
-            address: siteConfig.brand.address,
+            "@type": "ItemList",
+            name: `${siteConfig.brand.name} — Katalog Koleksi`,
+            itemListElement: [
+              { "@type": "ListItem", position: 1, url: `${siteConfig.brand.url}/products/round-beach-bag`, name: "Round Beach Bag" },
+              { "@type": "ListItem", position: 2, url: `${siteConfig.brand.url}/products/beach-bag-shoulder`, name: "Beach Bag Shoulder" },
+              { "@type": "ListItem", position: 3, url: `${siteConfig.brand.url}/products/oval-beach-hat`, name: "Oval Beach Hat" },
+              { "@type": "ListItem", position: 4, url: `${siteConfig.brand.url}/products/flip-flop-beach-sandals`, name: "Flip Flop Beach Sandals" },
+              { "@type": "ListItem", position: 5, url: `${siteConfig.brand.url}/products/beach-sandals-slip-on`, name: "Beach Sandals Slip On" },
+              { "@type": "ListItem", position: 6, url: `${siteConfig.brand.url}/products/retro-beach-bag`, name: "Retro Beach Bag" },
+              { "@type": "ListItem", position: 7, url: `${siteConfig.brand.url}/products/simple-retro-beach-bag`, name: "Simple Retro Beach Bag" },
+              { "@type": "ListItem", position: 8, url: `${siteConfig.brand.url}/products/straw-basket-bag`, name: "Straw Basket Bag" },
+            ],
           }),
         }}
       />

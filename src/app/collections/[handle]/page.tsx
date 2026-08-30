@@ -22,7 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description: description.slice(0, 155),
     alternates: { canonical: `/collections/${handle}` },
-    openGraph: { title, description, images: col.image ? [col.image.url] : [] },
+    openGraph: {
+      title,
+      description,
+      url: `${siteConfig.brand.url}/collections/${handle}`,
+      type: "website",
+      images: col.image ? [{ url: col.image.url, width: 1200, height: 800, alt: col.image.altText }] : [],
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
