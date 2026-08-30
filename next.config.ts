@@ -20,6 +20,51 @@ const nextConfig: NextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
+  // SEO: canonical domain — apex -> www redirect (Vercel also handles, but Next ensures single canonical)
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "easthtic.my.id" }],
+        destination: "https://www.easthtic.my.id/:path*",
+        permanent: true,
+      },
+      // Vercel preview URL redirect hint (optional)
+      // Common Vercel domains -> canonical
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "easthtic-of-indonesia.vercel.app" }],
+        destination: "https://www.easthtic.my.id/:path*",
+        permanent: true,
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "origin-when-cross-origin" },
+        ],
+      },
+      {
+        source: "/sitemap.xml",
+        headers: [
+          { key: "Content-Type", value: "application/xml" },
+          { key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" },
+        ],
+      },
+      {
+        source: "/robots.txt",
+        headers: [
+          { key: "Content-Type", value: "text/plain" },
+          { key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
