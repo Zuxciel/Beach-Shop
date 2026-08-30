@@ -16,7 +16,6 @@ function FormattedMessage({ text }: { text: string }) {
         return <div key={idx} className="h-1.5" />;
       }
 
-      // Format bold (**teks**) dan italic (*teks*)
       const parseInlineStyles = (content: string) => {
         const parts = content.split(/(\*\*.*?\*\*|\*.*?\*)/g);
         return parts.map((part, pIdx) => {
@@ -38,11 +37,10 @@ function FormattedMessage({ text }: { text: string }) {
         });
       };
 
-      // Bullet points
       if (line.trim().startsWith("• ") || line.trim().startsWith("- ")) {
         return (
           <div key={idx} className="flex items-start gap-1.5 my-0.5 pl-0.5">
-            <span className="text-ocean font-bold text-xs mt-0.5 shrink-0">●</span>
+            <span className="text-ocean font-bold text-xs mt-0.5 shrink-0">•</span>
             <span className="text-stone-700 leading-relaxed text-xs sm:text-sm">
               {parseInlineStyles(line.trim().slice(2))}
             </span>
@@ -50,12 +48,11 @@ function FormattedMessage({ text }: { text: string }) {
         );
       }
 
-      // Numbered list
       const numMatch = line.trim().match(/^(\d+)\.\s(.*)/);
       if (numMatch) {
         return (
           <div key={idx} className="flex items-start gap-1.5 my-0.5 pl-0.5">
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-ocean/10 text-[10px] font-bold text-ocean shrink-0 mt-0.5">
+            <span className="flex h-4 w-4 items-center justify-center rounded bg-sand-200 text-[10px] font-bold text-charcoal shrink-0 mt-0.5">
               {numMatch[1]}
             </span>
             <span className="text-stone-700 leading-relaxed text-xs sm:text-sm">
@@ -112,7 +109,7 @@ function InChatInquiryForm({
     if (res.success) {
       setSubmitted(true);
       onSuccess(
-        `✅ Pesanan untuk **${product?.title || "koleksi"}** telah tercatat (No. Ref: \`${res.inquiryId}\`). Tim kami akan segera menindaklanjuti!`
+        `Pesanan untuk ${product?.title || "produk"} telah tercatat (Ref: ${res.inquiryId}). Tim kami akan segera menghubungi Anda.`
       );
     } else {
       setError(res.message);
@@ -121,8 +118,8 @@ function InChatInquiryForm({
 
   if (submitted) {
     return (
-      <div className="mt-2.5 rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-xs text-emerald-800">
-        <p className="font-semibold">✓ Data Pesanan Tercatat di Panel Toko</p>
+      <div className="mt-2.5 rounded-lg bg-emerald-50 border border-emerald-200 p-3 text-xs text-emerald-800">
+        <p className="font-semibold">Data Pesanan Tercatat</p>
         <p className="mt-0.5 text-[11px] text-emerald-700">
           Terima kasih {name}. Tim kami akan menghubungi Anda segera melalui {contact}.
         </p>
@@ -131,13 +128,13 @@ function InChatInquiryForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-2.5 rounded-xl border border-sand-200 bg-sand-50/90 p-3 space-y-2">
+    <form onSubmit={handleSubmit} className="mt-2.5 rounded-lg border border-sand-200 bg-sand-50 p-3 space-y-2">
       <div className="flex items-center justify-between border-b border-sand-200 pb-1.5">
         <span className="text-xs font-semibold text-charcoal">
-          📝 Form Pesanan / Konsultasi
+          Form Pesanan / Konsultasi
         </span>
         {product && (
-          <span className="rounded-full bg-ocean/10 px-2 py-0.5 text-[10px] font-bold text-ocean truncate max-w-[130px]">
+          <span className="rounded bg-sand-200 px-1.5 py-0.5 text-[10px] font-medium text-charcoal truncate max-w-[130px]">
             {product.title}
           </span>
         )}
@@ -151,30 +148,30 @@ function InChatInquiryForm({
           onChange={(e) => setName(e.target.value)}
           required
           placeholder="Nama Lengkap"
-          className="mt-0.5 w-full rounded-lg border border-sand-200 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
+          className="mt-0.5 w-full rounded border border-sand-300 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
         />
       </div>
 
       <div>
-        <label className="text-[10px] font-medium text-stone-600">Email *</label>
+        <label className="text-[10px] font-medium text-stone-600">No. WhatsApp / Email *</label>
         <input
-          type="email"
+          type="text"
           value={contact}
           onChange={(e) => setContact(e.target.value)}
           required
-          placeholder="email@anda.com"
-          className="mt-0.5 w-full rounded-lg border border-sand-200 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
+          placeholder="08123456789 atau email@anda.com"
+          className="mt-0.5 w-full rounded border border-sand-300 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
         />
       </div>
 
       <div>
-        <label className="text-[10px] font-medium text-stone-600">Catatan / Jumlah (opsional)</label>
+        <label className="text-[10px] font-medium text-stone-600">Catatan / Jumlah</label>
         <input
           type="text"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Contoh: Tanya stok 2 pcs warna natural"
-          className="mt-0.5 w-full rounded-lg border border-sand-200 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
+          placeholder="Contoh: Tanya stok warna natural"
+          className="mt-0.5 w-full rounded border border-sand-300 bg-white px-2.5 py-1.5 text-xs outline-none focus:border-ocean"
         />
       </div>
 
@@ -183,9 +180,9 @@ function InChatInquiryForm({
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-lg bg-ocean py-2 text-xs font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition disabled:opacity-60"
+        className="w-full rounded bg-ocean py-2 text-xs font-medium text-white shadow-xs hover:bg-[#0f2422] transition disabled:opacity-60"
       >
-        {submitting ? "Mencatat ke Panel..." : "Kirim Data Pesanan ke Admin 📋"}
+        {submitting ? "Mencatat..." : "Kirim Pesan ke Toko"}
       </button>
     </form>
   );
@@ -197,11 +194,9 @@ export function ChatbotWidget() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastSentTimeRef = useRef<number>(0);
 
-  // Body scroll lock on mobile when chat is open
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("chat-open");
@@ -213,7 +208,6 @@ export function ChatbotWidget() {
     };
   }, [isOpen]);
 
-  // Inisialisasi percakapan lokal (100% aman tanpa request database berulang di refresh)
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem("aesthetic_chat_history");
@@ -244,7 +238,6 @@ export function ChatbotWidget() {
 
     const handleOpenChat = (event: any) => {
       setIsOpen(true);
-      setUnreadCount(0);
       if (event.detail?.message) {
         setTimeout(() => {
           handleSendMessage(event.detail.message);
@@ -258,7 +251,6 @@ export function ChatbotWidget() {
     };
   }, []);
 
-  // Simpan history lokal saat pesan bertambah
   useEffect(() => {
     if (messages.length > 0) {
       try {
@@ -267,7 +259,6 @@ export function ChatbotWidget() {
     }
   }, [messages]);
 
-  // Auto-scroll
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -278,7 +269,6 @@ export function ChatbotWidget() {
     const cleanText = textToSend.trim();
     if (!cleanText || isTyping) return;
 
-    // Anti-spam debounce: cegah pengiriman beruntun dalam < 400ms
     const now = Date.now();
     if (now - lastSentTimeRef.current < 400) return;
     lastSentTimeRef.current = now;
@@ -317,9 +307,9 @@ export function ChatbotWidget() {
       const fallbackMsg: ChatMessage = {
         id: `bot_fb_${Date.now()}`,
         sender: "bot",
-        text: `Ada yang bisa saya bantu terkait koleksi **${siteConfig.brand.name}**? Anda juga dapat melihat katalog lengkap kami.`,
+        text: `Silakan jelajahi katalog ${siteConfig.brand.name} atau kirimkan pertanyaan Anda melalui formulir kontak.`,
         timestamp: Date.now(),
-        suggestions: ["👜 Rekomendasi Tas", "👒 Topi Pantai", "📍 Lokasi Toko"],
+        suggestions: ["Koleksi Tas Pantai", "Koleksi Topi", "Info Lokasi"],
         actionLinks: [{ label: "Semua Koleksi", url: "/collections/shop-all" }],
       };
       setMessages((prev) => [...prev, fallbackMsg]);
@@ -344,60 +334,40 @@ export function ChatbotWidget() {
 
   return (
     <>
-      {/* Floating Launcher Button — positioned cleanly above mobile bottom nav */}
-      <div className="fixed bottom-[74px] right-3 z-30 sm:bottom-6 sm:right-6">
+      {/* Clean Floating Circular Launcher Button */}
+      <div className="fixed bottom-20 right-4 z-30 sm:bottom-6 sm:right-6">
         {!isOpen && (
           <button
-            onClick={() => {
-              setIsOpen(true);
-              setUnreadCount(0);
-            }}
-            aria-label="Buka AI Assistant"
-            className="group relative flex h-12 w-12 sm:h-14 sm:w-auto items-center justify-center gap-2.5 rounded-full bg-ocean sm:px-4 text-white shadow-xl shadow-ocean/30 transition-all duration-300 hover:scale-105 hover:bg-[#0f2e2c] focus:outline-none"
+            onClick={() => setIsOpen(true)}
+            aria-label="Buka Chat Asisten"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-ocean text-white shadow-md transition-transform hover:scale-105 hover:bg-[#0f2422] focus:outline-none"
           >
-            <div className="relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/20">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="sm:w-5 sm:h-5">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-              <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-emerald-500"></span>
-              </span>
-            </div>
-            <span className="hidden pr-1 text-xs font-medium tracking-wide sm:inline">
-              Tanya Asisten AI
-            </span>
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center rounded-full bg-clay text-[9px] sm:text-[10px] font-bold text-white shadow">
-                {unreadCount}
-              </span>
-            )}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
           </button>
         )}
       </div>
 
       {/* Chat Window Panel */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white shadow-2xl transition-all sm:inset-auto sm:bottom-6 sm:right-6 sm:h-[600px] sm:max-h-[85vh] sm:w-[400px] sm:rounded-3xl sm:border sm:border-sand-200">
+        <div className="fixed inset-0 z-50 flex flex-col bg-white shadow-xl sm:inset-auto sm:bottom-6 sm:right-6 sm:h-[560px] sm:max-h-[85vh] sm:w-[380px] sm:rounded-xl sm:border sm:border-sand-200">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-sand-200 bg-ocean px-4 py-3.5 text-white sm:px-5 sm:py-4 sm:rounded-t-3xl">
-            <div className="flex items-center gap-2.5">
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-base">
-                🌊
-                <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-ocean bg-emerald-400"></span>
-              </div>
+          <div className="flex items-center justify-between border-b border-sand-200 bg-ocean px-4 py-3 text-white sm:rounded-t-xl">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-emerald-400" />
               <div>
-                <h3 className="font-medium text-xs sm:text-sm leading-tight">{siteConfig.chatbot.botName}</h3>
-                <p className="text-[10px] sm:text-[11px] text-white/80">{siteConfig.brand.name} • Online</p>
+                <h3 className="font-medium text-xs sm:text-sm">{siteConfig.chatbot.botName}</h3>
+                <p className="text-[10px] text-white/75">{siteConfig.brand.name}</p>
               </div>
             </div>
             <div className="flex items-center gap-1">
               <button
                 onClick={handleResetChat}
                 title="Bersihkan Percakapan"
-                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/15 transition text-white/80 hover:text-white"
+                className="flex h-7 w-7 items-center justify-center rounded hover:bg-white/15 transition text-white/80"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
                   <path d="M21 3v5h-5" />
                   <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
@@ -406,87 +376,34 @@ export function ChatbotWidget() {
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/15 transition text-white/80 hover:text-white"
+                className="flex h-7 w-7 items-center justify-center rounded hover:bg-white/15 transition text-white/80"
                 aria-label="Tutup Chat"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6 6 18M6 6l12 12" />
                 </svg>
               </button>
             </div>
           </div>
 
-          {/* Messages Container with Rich UI Optimizer */}
-          <div className="flex-1 overflow-y-auto bg-[#faf8f5] p-3 space-y-3 text-sm">
-            <div className="text-center">
-              <span className="inline-block rounded-full bg-sand-200/60 px-2.5 py-0.5 text-[10px] text-stone-500">
-                Pencatatan Pesanan Terhubung ke Panel Admin
-              </span>
-            </div>
-
+          {/* Messages Container */}
+          <div className="flex-1 overflow-y-auto bg-[#faf7f2] p-3 space-y-2.5 text-sm">
             {messages.map((m) => (
               <div
                 key={m.id}
                 className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
               >
                 <div
-                  className={`max-w-[92%] sm:max-w-[88%] rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 leading-relaxed ${
+                  className={`max-w-[90%] rounded-lg px-3 py-2 text-xs sm:text-sm leading-relaxed ${
                     m.sender === "user"
-                      ? "rounded-br-xs bg-ocean text-white shadow-sm"
-                      : "rounded-bl-xs border border-sand-200 bg-white text-charcoal shadow-sm"
+                      ? "bg-ocean text-white shadow-xs"
+                      : "border border-sand-200 bg-white text-charcoal shadow-xs"
                   }`}
                 >
-                  {/* Rich Text Formatter */}
                   {m.sender === "user" ? (
-                    <p className="whitespace-pre-line text-white text-xs sm:text-sm">{m.text}</p>
+                    <p className="whitespace-pre-line text-white">{m.text}</p>
                   ) : (
                     <FormattedMessage text={m.text} />
-                  )}
-
-                  {/* Product Mini Cards UI */}
-                  {m.productCards && m.productCards.length > 0 && (
-                    <div className="mt-2.5 space-y-2 pt-2 border-t border-sand-100">
-                      {m.productCards.map((p) => (
-                        <div
-                          key={p.handle}
-                          className="flex items-center gap-2 rounded-xl border border-sand-200 bg-[#fdfbf7] p-2 hover:border-ocean/40 transition"
-                        >
-                          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-sand-100">
-                            <Image
-                              src={p.imageUrl}
-                              alt={p.title}
-                              fill
-                              className="object-cover"
-                              sizes="48px"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-xs text-charcoal truncate">{p.title}</p>
-                            <p className="text-[11px] font-semibold text-clay">{p.price}</p>
-                            <p className="text-[10px] text-stone-500 truncate">{p.material}</p>
-                          </div>
-                          <div className="flex flex-col gap-1 shrink-0">
-                            <button
-                              onClick={() =>
-                                handleSendMessage(`Pesan ${p.title}`)
-                              }
-                              className="rounded-md bg-ocean px-2 py-1 text-[10px] font-medium text-white shadow-xs hover:bg-[#0f2e2c]"
-                            >
-                              Pesan 🛒
-                            </button>
-                            <Link
-                              href={`/products/${p.handle}`}
-                              onClick={() => {
-                                if (window.innerWidth < 640) setIsOpen(false);
-                              }}
-                              className="rounded-md border border-sand-200 bg-white px-2 py-0.5 text-[10px] font-medium text-stone-600 text-center hover:text-ocean"
-                            >
-                              Detail
-                            </Link>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   )}
 
                   {/* In-Chat Inquiry Form */}
@@ -501,11 +418,7 @@ export function ChatbotWidget() {
                             sender: "bot",
                             text: successMsg,
                             timestamp: Date.now(),
-                            suggestions: [
-                              "👜 Lihat Koleksi Lainnya",
-                              "📍 Alamat & Jam Buka",
-                              "🌿 Tips Perawatan Anyaman",
-                            ],
+                            suggestions: ["Lihat Koleksi Lainnya", "Info Lokasi & Jam Buka"],
                             actionLinks: [{ label: "Semua Koleksi", url: "/collections/shop-all" }],
                           },
                         ]);
@@ -523,7 +436,7 @@ export function ChatbotWidget() {
                           onClick={() => {
                             if (window.innerWidth < 640) setIsOpen(false);
                           }}
-                          className="inline-flex items-center gap-1 rounded-lg bg-sand-100 px-2 py-1 text-[11px] sm:text-xs font-semibold text-ocean hover:bg-sand-200 transition"
+                          className="inline-flex items-center gap-1 rounded bg-sand-100 px-2 py-1 text-[11px] font-medium text-ocean hover:bg-sand-200 transition"
                         >
                           {al.label} →
                         </Link>
@@ -532,14 +445,14 @@ export function ChatbotWidget() {
                   )}
                 </div>
 
-                {/* Quick suggestions chips */}
+                {/* Quick suggestions */}
                 {m.sender === "bot" && m.suggestions && m.suggestions.length > 0 && (
-                  <div className="mt-1.5 flex max-w-[95%] flex-wrap gap-1.5">
+                  <div className="mt-1 flex max-w-[95%] flex-wrap gap-1">
                     {m.suggestions.map((sug, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(sug)}
-                        className="rounded-full border border-sand-200 bg-white px-2.5 py-1 text-[11px] sm:text-xs text-stone-700 hover:border-ocean hover:bg-ocean/5 hover:text-ocean transition shadow-xs"
+                        className="rounded border border-sand-300 bg-white px-2 py-0.5 text-[11px] text-stone-600 hover:border-ocean hover:text-ocean transition"
                       >
                         {sug}
                       </button>
@@ -549,13 +462,12 @@ export function ChatbotWidget() {
               </div>
             ))}
 
-            {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-start">
-                <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-xs border border-sand-200 bg-white px-3.5 py-2.5 text-stone-500 shadow-sm">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ocean/70" style={{ animationDelay: "0ms" }}></span>
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ocean/70" style={{ animationDelay: "150ms" }}></span>
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ocean/70" style={{ animationDelay: "300ms" }}></span>
+                <div className="flex items-center gap-1 rounded-lg border border-sand-200 bg-white px-3 py-2 text-stone-400 shadow-xs">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ocean" style={{ animationDelay: "0ms" }}></span>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ocean" style={{ animationDelay: "150ms" }}></span>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ocean" style={{ animationDelay: "300ms" }}></span>
                 </div>
               </div>
             )}
@@ -563,36 +475,32 @@ export function ChatbotWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Footer Input Form */}
+          {/* Footer Input */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSendMessage(inputValue);
             }}
-            className="border-t border-sand-200 bg-white p-2.5 sm:p-3 sm:rounded-b-3xl"
+            className="border-t border-sand-200 bg-white p-2.5 sm:rounded-b-xl"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ketik pesan atau pilih topik..."
-                className="flex-1 rounded-full border border-sand-200 bg-[#fdfbf7] px-3.5 py-2 text-xs sm:text-sm outline-none transition focus:border-ocean focus:bg-white"
+                placeholder="Ketik pertanyaan katalog..."
+                className="flex-1 rounded border border-sand-300 bg-[#faf7f2] px-3 py-2 text-xs outline-none focus:border-ocean focus:bg-white"
               />
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isTyping}
-                className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-ocean text-white transition hover:bg-[#0f2e2c] disabled:opacity-40 shadow-sm"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-ocean text-white hover:bg-[#0f2422] disabled:opacity-40"
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="m22 2-7 20-4-9-9-4Z" />
                   <path d="M22 2 11 13" />
                 </svg>
               </button>
-            </div>
-            <div className="mt-1.5 flex items-center justify-between px-2 text-[9px] sm:text-[10px] text-stone-400">
-              <span>{siteConfig.brand.shortName} AI Assistant</span>
-              <span>Katalog & Pesanan</span>
             </div>
           </form>
         </div>

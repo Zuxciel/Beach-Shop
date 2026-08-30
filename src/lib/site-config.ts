@@ -1,18 +1,16 @@
 /**
  * Aesthetic of Indonesia — Site Config
- * Pusat konfigurasi identitas toko, kontak, lokasi, jam operasional, Firebase, & AI Chatbot.
+ * Konfigurasi identitas toko, kontak, lokasi, Firebase, & AI Chatbot.
  */
 
 export const siteConfig = {
-  // === Brand (Identitas Utama) ===
   brand: {
     name: "Aesthetic of Indonesia",
-    shortName: "AESTHETIC",
-    tagline: "Koleksi Kerajinan Pantai — Terinspirasi dari Bali",
+    shortName: "Aesthetic of Indonesia",
+    tagline: "Katalog Koleksi Bertema Pantai",
     url: "https://www.easthtic.my.id",
     apexUrl: "https://easthtic.my.id",
     email: "hello@easthtic.my.id",
-    // Nomor telepon & WA sementara dikosongkan sesuai permintaan
     phone: "",
     whatsapp: "",
     instagram: "aesthetic.id",
@@ -26,58 +24,52 @@ export const siteConfig = {
     operationalHours: {
       weekdays: "Senin — Sabtu: 09:00 – 18:00 WITA",
       weekend: "Minggu: 10:00 – 16:00 WITA",
-      notes: "Layanan konsultasi AI Chatbot aktif 24 jam setiap hari",
+      notes: "Layanan asisten chat aktif untuk konsultasi katalog",
     },
   },
 
   currency: "IDR" as const,
   currencyCode: "IDR" as const,
 
-  // === Firebase Realtime Database Config ===
   firebase: {
     databaseUrl: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "",
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "",
   },
 
-  // === AI Chatbot Config (Algoritma Simulasi) ===
   chatbot: {
-    botName: "Aesthetic Assistant",
+    botName: "Asisten Toko",
     welcomeMessage:
-      "Halo! Selamat datang di Aesthetic of Indonesia 🌊. Saya asisten virtual Anda. Ada yang bisa saya bantu terkait koleksi tas, topi, sandal pantai, info bahan, atau lokasi toko kami?",
+      "Halo! Selamat datang di katalog Aesthetic of Indonesia. Ada yang bisa kami bantu terkait informasi produk tas, topi, atau sandal?",
     quickSuggestions: [
-      "👜 Rekomendasi Tas Pantai",
-      "👒 Koleksi Topi Anyaman",
-      "🩴 Sandal Pantai Nyaman",
-      "📍 Alamat & Jam Buka",
-      "🌿 Bahan & Cara Perawatan",
-      "✉️ Kirim Pesan ke Toko",
+      "Koleksi Tas Pantai",
+      "Koleksi Topi",
+      "Koleksi Sandal",
+      "Info Lokasi & Jam Buka",
+      "Kirim Pesan ke Toko",
     ],
   },
 
-  // === Announcement Bar ===
   announcement: {
     enabled: true,
     dismissible: true,
-    intervalMs: 4000,
+    intervalMs: 5000,
     messages: [
-      "Aesthetic of Indonesia — Katalog Koleksi Bertema Pantai",
-      "Koleksi Tas, Topi & Sandal Anyaman — Konsultasi via AI Chatbot",
-      "Tanyakan info produk & inspirasi gaya pantai langsung ke asisten kami",
+      "Aesthetic of Indonesia — Katalog Koleksi Tas, Topi & Sandal Bertema Pantai",
+      "Konsultasi produk dan ketersediaan stok dapat dilakukan melalui chat",
     ],
   },
 
-  // === Info Toko ===
   shipping: {
     freeThreshold: 500000,
     flatRate: 25000,
     expressRate: 50000,
     giftWrap: 15000,
-    note: "Katalog identitas — tanyakan detail via AI Chatbot atau form kontak",
-    noteWithCode: "Tanyakan info ketersediaan via chat",
+    note: "Katalog produk — hubungi kami untuk informasi ketersediaan",
+    noteWithCode: "Info ketersediaan via kontak",
     shortNote: "Koleksi Bertema Pantai",
-    unlockedText: "Katalog identitas",
-    unlockedSubtext: "Ketersediaan & detail dapat bervariasi, tanyakan ke asisten toko.",
+    unlockedText: "Katalog produk",
+    unlockedSubtext: "Detail produk dapat ditanyakan ke tim toko.",
   },
   tax: { rate: 0.11, label: "PPN (11%)" },
   promos: [] as const,
@@ -95,35 +87,34 @@ export const siteConfig = {
     get discountLabel() {
       return "";
     },
-    subtext: "Katalog identitas — konsultasi via AI Chatbot.",
+    subtext: "Katalog produk.",
   },
 
   valueProps: [
-    { icon: "🌿", label: "Nuansa Alami\nTerinspirasi Rotan" },
-    { icon: "✋", label: "Pengerjaan\nDetail Per Produk" },
-    { icon: "🌊", label: "Tema Pantai\nIlustrasi Katalog" },
+    { icon: "•", label: "Anyaman\nMaterial Pilihan" },
+    { icon: "•", label: "Desain\nTema Pesisir" },
+    { icon: "•", label: "Katalog\nReferensi Gaya" },
   ] as const,
 
   ui: {
     explore: "Lihat Detail",
     contact: "Hubungi Kami",
-    chat: "Tanya AI Chatbot",
-    whatsapp: "Chat Asisten",
-    madeIn: "Terinspirasi Bali — variasi tiap produk mungkin berbeda",
-    saleBadge: "Pilihan",
-    verifiedBadge: "Katalog",
-    inStock: "Tanya asisten toko",
-    secureCheckout: "Konsultasi Chat",
-    paymentMethods: "Info transaksi via kontak",
-    freeReturns: "Syarat dapat berbeda",
+    chat: "Tanya Asisten",
+    whatsapp: "Chat",
+    madeIn: "Produk bertema pesisir tropis",
+    saleBadge: "Katalog",
+    verifiedBadge: "Koleksi",
+    inStock: "Tanya ketersediaan",
+    secureCheckout: "Konsultasi",
+    paymentMethods: "Info via kontak",
+    freeReturns: "Ketentuan toko berlaku",
   },
 
   newsletter: {
-    title: "Tetap terhubung dengan Aesthetic of Indonesia",
-    subtitle:
-      "Dapatkan kabar koleksi & cerita katalog bernuansa pantai khas Bali langsung ke email Anda.",
-    placeholder: "Email Anda",
-    discountBadge: "Kabar Koleksi",
+    title: "Kabar Koleksi Terbaru",
+    subtitle: "Dapatkan pembaruan katalog produk dan info koleksi berkala.",
+    placeholder: "Masukkan email Anda",
+    discountBadge: "Katalog",
   },
 };
 

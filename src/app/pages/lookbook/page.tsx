@@ -3,15 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { lookbookItems } from "@/lib/data";
 import { siteConfig } from "@/lib/site-config";
-import { NewsletterForm } from "@/components/forms/NewsletterForm";
 
 export const metadata: Metadata = {
   title: `Lookbook | ${siteConfig.brand.name}`,
-  description: `Lookbook ${siteConfig.brand.name} — kurasi cerita visual kerajinan anyaman tas, topi, dan sandal bertema pantai Bali.`,
+  description: `Inspirasi gaya dan padu-padan koleksi tas, topi, dan sandal bertema pantai ${siteConfig.brand.name}.`,
   alternates: { canonical: "/pages/lookbook" },
   openGraph: {
     title: `Lookbook | ${siteConfig.brand.name}`,
-    description: `Lookbook ${siteConfig.brand.name} — editorial cerita visual kerajinan pantai khas Bali.`,
+    description: `Inspirasi padu-padan gaya bertema pantai ${siteConfig.brand.name}.`,
     url: `${siteConfig.brand.url}/pages/lookbook`,
     type: "article",
     images: [
@@ -23,151 +22,99 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `Lookbook | ${siteConfig.brand.name}`,
-    description: `Lookbook ${siteConfig.brand.name} — editorial cerita visual kerajinan pantai khas Bali.`,
-    images: [`${siteConfig.brand.url}/img/Beach1.jpg`],
-  },
 };
 
 export default function LookbookPage() {
   return (
-    <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8 py-8">
-      <div className="text-center">
+    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      {/* Page Header */}
+      <div className="text-center max-w-2xl mx-auto">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
-          Editorial • Katalog Visual
+          Inspirasi Gaya
         </p>
-        <h1 className="mt-2 font-display text-4xl md:text-5xl text-charcoal">Lookbook Pantai</h1>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-stone-600">
-          {siteConfig.brand.name} — Kurasi 4 cerita visual bertema golden hour di pesisir pantai Bali yang menonjolkan keaslian serat anyaman rotan, pandan, dan jerami.
+        <h1 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl text-charcoal">
+          Lookbook Pesisir
+        </h1>
+        <p className="mt-3 text-sm leading-relaxed text-stone-600">
+          Kurasi visual padu-padan tas anyaman, topi, dan aksesori bertema pantai untuk referensi gaya santai dan liburan Anda.
         </p>
-        <div className="mt-6 flex justify-center gap-2 text-xs text-stone-600">
-          <span className="rounded-full bg-sand-100 px-3 py-1 font-medium">4 Cerita Visual</span>
-          <span className="rounded-full bg-sand-100 px-3 py-1">Instagram @{siteConfig.brand.instagram}</span>
-          <span className="rounded-full bg-sand-100 px-3 py-1">Bali Inspired</span>
-        </div>
       </div>
 
-      <div className="mt-8 flex justify-center gap-2 overflow-x-auto scrollbar-hide">
-        {lookbookItems.map((item) => (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            className="whitespace-nowrap rounded-full border border-sand-200 bg-white px-4 py-2 text-xs font-medium hover:border-ocean hover:text-ocean transition"
-          >
-            {item.title}
-          </a>
-        ))}
-      </div>
-
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
+      {/* Lookbook Gallery Grid */}
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
         {lookbookItems.map((item, idx) => (
           <article
             key={item.id}
-            id={item.id}
-            className={`group relative overflow-hidden rounded-2xl bg-sand-100 scroll-mt-28 ${
-              idx === 0 ? "md:row-span-2" : ""
-            }`}
+            className="group flex flex-col overflow-hidden rounded-xl border border-sand-200 bg-white shadow-xs"
           >
-            <div className={`relative ${idx === 0 ? "aspect-[3/4] md:aspect-[3/4]" : "aspect-[4/3]"}`}>
+            {/* Image Container */}
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-sand-100">
               <Image
                 src={item.imageUrl}
                 alt={item.altText}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width:768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 loading={idx < 2 ? "eager" : "lazy"}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/80">
-                  Cerita 0{idx + 1}
-                </p>
-                <h2 className="font-display text-2xl text-white">{item.title}</h2>
+            </div>
+
+            {/* Content Below Image (No weird text covering photos) */}
+            <div className="p-6 flex flex-col flex-1 justify-between bg-white">
+              <div>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-terracotta-dark">
+                  Koleksi 0{idx + 1}
+                </span>
+                <h2 className="mt-1 font-display text-2xl text-charcoal">
+                  {item.title}
+                </h2>
                 {item.description && (
-                  <p className="mt-1 text-sm text-white/90">{item.description}</p>
-                )}
-                {item.products && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {item.products.map((h) => (
-                      <Link
-                        key={h}
-                        href={`/products/${h}`}
-                        className="rounded-full bg-white/95 px-3 py-1 text-xs font-medium text-charcoal hover:bg-white shadow-sm transition"
-                      >
-                        Lihat {h.replace(/-/g, " ")} →
-                      </Link>
-                    ))}
-                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                    {item.description}
+                  </p>
                 )}
               </div>
+
+              {item.products && item.products.length > 0 && (
+                <div className="mt-5 pt-4 border-t border-sand-100 flex flex-wrap gap-2">
+                  {item.products.map((handle) => (
+                    <Link
+                      key={handle}
+                      href={`/products/${handle}`}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-sand-200 bg-sand-50 px-3.5 py-1.5 text-xs font-medium text-charcoal hover:border-ocean hover:text-ocean transition-colors"
+                    >
+                      <span>Lihat {handle.replace(/-/g, " ")}</span>
+                      <span>→</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </article>
         ))}
       </div>
 
-      <section className="mt-14 grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-sand-100">
-          <Image
-            src="/img/Beach1.jpg"
-            alt="Suasana bertema pantai — Aesthetic of Indonesia"
-            fill
-            className="object-cover"
-            sizes="(max-width:768px)100vw,50vw"
-            loading="lazy"
-          />
-        </div>
-        <div className="md:pl-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
-            Filosofi Desain
-          </p>
-          <h2 className="mt-2 font-display text-3xl leading-tight">
-            Sentuhan Alami <span className="italic text-terracotta-dark">Anyaman Pesisir</span>
-          </h2>
-          <p className="mt-4 text-sm leading-6 text-stone-600">
-            Setiap serat rotan, jerami, dan daun pandan dipilih secara teliti untuk menghasilkan produk berkarakter kuat, fleksibel, dan memiliki nilai seni tinggi. Kami bangga mempersembahkan kerajinan lokal Indonesia ke panggung internasional.
-          </p>
-          <blockquote className="mt-6 border-l-2 border-terracotta pl-4 text-sm italic text-stone-700">
-            “Menyatu dengan hangatnya mentari, deburan ombak, dan hembusan angin pesisir.” — {siteConfig.brand.name}
-          </blockquote>
-          <Link
-            href="/collections/beach-bags"
-            className="mt-6 inline-flex rounded-full bg-ocean px-6 py-3 text-sm font-medium text-white hover:bg-[#0f2e2c] transition shadow-sm"
-          >
-            Lihat Koleksi Tas Pantai
-          </Link>
-        </div>
-      </section>
-
-      <div className="mt-14 rounded-2xl bg-ocean p-8 text-center text-white md:p-12 shadow-sm">
-        <p className="font-display text-2xl md:text-3xl leading-tight">
-          “Garam, matahari, dan karya yang menyatu dengan alam.”
+      {/* Clean Bottom Navigation Card */}
+      <div className="mt-16 rounded-2xl border border-sand-200 bg-sand-50/60 p-8 text-center max-w-xl mx-auto">
+        <h3 className="font-display text-2xl text-charcoal">
+          Jelajahi Katalog Lengkap
+        </h3>
+        <p className="mt-2 text-sm text-stone-600">
+          Temukan seluruh pilihan tas pantai, topi, dan sandal di katalog utama kami.
         </p>
-        <p className="mt-3 text-sm text-white/80">— {siteConfig.brand.name} Journal</p>
-      </div>
-
-      <div className="mt-8 rounded-2xl border border-sand-200 bg-white p-8 text-center md:p-10 shadow-sm">
-        <h3 className="font-display text-2xl text-charcoal">Ingin Berkonsultasi atau Melihat Koleksi?</h3>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-stone-600">
-          Kunjungi galeri kami di {siteConfig.brand.address} atau gunakan AI Chatbot kami untuk panduan belanja dan info produk.
-        </p>
-        <div className="mt-6 flex justify-center gap-3">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/collections/shop-all"
-            className="rounded-full bg-ocean px-6 py-3 text-sm font-medium text-white hover:bg-[#0f2e2c] transition shadow-sm"
+            className="w-full sm:w-auto inline-flex h-11 items-center justify-center rounded-lg bg-ocean px-6 text-xs font-medium uppercase tracking-wider text-white shadow-xs hover:bg-[#0f2422] transition-colors"
           >
-            Buka Katalog Koleksi
+            Lihat Semua Koleksi
           </Link>
           <Link
             href="/contact"
-            className="rounded-full border border-sand-200 bg-sand-50 px-6 py-3 text-sm font-medium hover:border-ocean transition"
+            className="w-full sm:w-auto inline-flex h-11 items-center justify-center rounded-lg border border-sand-300 bg-white px-6 text-xs font-medium uppercase tracking-wider text-charcoal hover:border-ocean transition-colors"
           >
             Info Kontak & Lokasi
           </Link>
-        </div>
-        <div className="mx-auto mt-6 max-w-md">
-          <NewsletterForm placeholder="Email untuk kabar koleksi" />
         </div>
       </div>
 
