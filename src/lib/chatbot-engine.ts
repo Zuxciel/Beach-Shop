@@ -45,7 +45,11 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
   const address = siteConfig.brand.address;
   const hours = siteConfig.brand.operationalHours;
 
-  // Helper untuk mengambil kartu produk
+  // Helper acak biar output bervariasi tapi tetap simulasi (bukan AI beneran)
+  const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+  const vary = (templates: string[]) => pick(templates);
+
+  // Helper untuk mengambil kartu produk acak/variatif
   const mapProductToCard = (p: (typeof products)[0]): ProductCardData => ({
     handle: p.handle,
     title: p.title,
@@ -55,6 +59,7 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     imageUrl: p.featuredImage.url,
     category: p.category,
   });
+  const shuffle = <T,>(a: T[]) => [...a].sort(() => 0.5 - Math.random()).slice(0, 3);
 
   // 1. Trigger Form Pemesanan / Tanya Stok Khusus
   if (
@@ -90,7 +95,7 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     };
   }
 
-  // 2. Sapaan / Greeting
+  // 2. Sapaan / Greeting — bervariasi
   if (
     cleanInput.match(
       /^(halo|hai|hi|hey|helo|pagi|selamat pagi|siang|selamat siang|sore|selamat sore|malam|selamat malam|assalamu|permisi|tes|ping)\b/i
@@ -98,14 +103,19 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput === "halo" ||
     cleanInput === "hai"
   ) {
+    const greetings = [
+      `Halo! Selamat datang di **${brand}** 🌊.\n\nSaya **${siteConfig.chatbot.botName}**, asisten katalog. Mau cari tas, topi, atau sandal untuk liburan?`,
+      `Hai! Senang Anda mampir ke **${brand}** 🌴\n\nSaya siap bantu rekomendasikan koleksi pantai yang pas — atau jelaskan bahan & perawatan anyaman.`,
+      `Selamat datang di **${brand}**! 🌊\n\nTanya saja seputar koleksi 8 produk kami, stok, atau lokasi toko — saya jawab cepat (simulasi).`,
+    ];
+    const sugSets = [
+      ["👜 Rekomendasi Tas Pantai", "👒 Koleksi Topi Anyaman", "🩴 Sandal Pantai Nyaman", "📍 Alamat & Jam Buka"],
+      ["✨ Koleksi Terlaris", "🌿 Bahan Rotan & Pandan", "📍 Lokasi Kuta", "🛒 Cara Pesan"],
+      ["👜 Lihat Tas Bulat", "👒 Topi Oval", "🩴 Flip Flop Nyaman", "💬 Tanya Stok"],
+    ];
     return {
-      text: `Halo! Selamat datang di **${brand}** 🌊.\n\nSaya **${siteConfig.chatbot.botName}**. Ada yang bisa saya bantu terkait koleksi tas pantai, topi anyaman, sandal, atau info toko kami?`,
-      suggestions: [
-        "👜 Rekomendasi Tas Pantai",
-        "👒 Koleksi Topi Anyaman",
-        "🩴 Sandal Pantai Nyaman",
-        "📍 Alamat & Jam Buka",
-      ],
+      text: vary(greetings),
+      suggestions: pick(sugSets),
       actionLinks: [{ label: "Buka Semua Koleksi", url: "/collections/shop-all" }],
     };
   }
@@ -119,24 +129,24 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
   );
 
   if (directProductMatch) {
+    const descs = [
+      `Berikut **${directProductMatch.title}** untuk Anda:\n\n• **Kategori**: ${directProductMatch.productType}\n• **Material**: ${directProductMatch.material}\n• **Estimasi Harga**: ${formatPrice(directProductMatch.priceRange.minVariantPrice.amount, directProductMatch.priceRange.minVariantPrice.currencyCode)}\n\n*${directProductMatch.description}*\n\nFoto & harga ilustrasi katalog — detail aktual konfirmasi via chat.`,
+      `**${directProductMatch.title}** — pilihan bertema pantai:\n\n• **Bahan**: ${directProductMatch.material}\n• **Tipe**: ${directProductMatch.productType}\n• **Harga**: ${formatPrice(directProductMatch.priceRange.minVariantPrice.amount, directProductMatch.priceRange.minVariantPrice.currencyCode)}\n\n*${directProductMatch.description}*`,
+      `Info **${directProductMatch.title}** 🌴\n\n**Kategori** ${directProductMatch.productType} — **Bahan** ${directProductMatch.material}\n**Harga** ${formatPrice(directProductMatch.priceRange.minVariantPrice.amount, directProductMatch.priceRange.minVariantPrice.currencyCode)}\n\n_${directProductMatch.description}_`,
+    ];
     return {
-      text: `Berikut informasi produk **${directProductMatch.title}**:\n\n• **Kategori**: ${directProductMatch.productType}\n• **Material**: ${directProductMatch.material}\n• **Estimasi Harga**: ${formatPrice(
-        directProductMatch.priceRange.minVariantPrice.amount,
-        directProductMatch.priceRange.minVariantPrice.currencyCode
-      )}\n\n*${directProductMatch.description}*`,
-      suggestions: [
-        `📝 Pesan ${directProductMatch.title}`,
-        "🌿 Info Bahan & Perawatan",
-        "👜 Lihat Koleksi Lainnya",
-      ],
-      productCards: [mapProductToCard(directProductMatch)],
-      actionLinks: [
-        { label: `Halaman ${directProductMatch.title}`, url: `/products/${directProductMatch.handle}` },
-      ],
+      text: vary(descs),
+      suggestions: pick([
+        [`📝 Pesan ${directProductMatch.title}`, "🌿 Info Bahan & Perawatan", "👜 Lihat Koleksi Lainnya"],
+        [`💬 Tanya Stok ${directProductMatch.title}`, "✨ Rekomendasi Serupa", "📍 Lokasi Toko"],
+        ["👜 Koleksi Tas", "👒 Topi", "🩴 Sandal"],
+      ]),
+      productCards: [mapProductToCard(directProductMatch), ...shuffle(products.filter((p) => p.handle !== directProductMatch.handle)).slice(0, 1).map(mapProductToCard)].slice(0, 2),
+      actionLinks: [{ label: `Halaman ${directProductMatch.title}`, url: `/products/${directProductMatch.handle}` }],
     };
   }
 
-  // 4. Kategori: Tas Pantai (Bags)
+  // 4. Kategori: Tas Pantai (Bags) — variasi
   if (
     cleanInput.includes("tas") ||
     cleanInput.includes("bag") ||
@@ -144,17 +154,25 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("basket") ||
     cleanInput.includes("rotan")
   ) {
-    const bagCards = products.filter((p) => p.category === "bags").slice(0, 3).map(mapProductToCard);
-
+    const bagCards = shuffle(products.filter((p) => p.category === "bags")).map(mapProductToCard);
+    const texts = [
+      `👜 **Tas Pantai ${brand}** — 5 pilihan:\n\n• **Round Beach Bag** — bulat ikonik\n• **Shoulder** — tote bahu luas\n• **Retro / Simple Retro** — motif vintage\n• **Straw Basket** — keranjang piknik\n\nSemua ilustrasi katalog, cek detail via chat.`,
+      `Tas pantai anyaman Bali 🌴 — **Round**, **Shoulder**, **Retro**, **Basket**.\n\nPilih yang paling pas untuk gaya liburan Anda. Mau yang bulat statement atau tote harian?`,
+      `👜 **Rekomendasi Tas** — dari rotan bulat hingga keranjang jerami. Setiap tas bawa nuansa pantai Bali. Lihat kartu produk di bawah untuk detail.`,
+    ];
     return {
-      text: `👜 **Koleksi Tas Pantai Pilihan ${brand}**\n\nDianyam dengan material alami khas Bali (rotan alami, serat daun pandan, dan jerami kokoh):\n\n• **Round Beach Bag** — Tas bulat rotan ikonik pantai.\n• **Beach Bag Shoulder** — Tote bahu luas & elegan.\n• **Straw Basket Bag** — Keranjang anyaman gaya vintage.`,
-      suggestions: ["👜 Buka Katalog Tas", "👒 Lihat Topi Pantai", "🌿 Cara Merawat Anyaman"],
+      text: vary(texts),
+      suggestions: pick([
+        ["👜 Buka Katalog Tas", "👒 Lihat Topi Pantai", "🌿 Cara Merawat Anyaman"],
+        ["✨ Tas Terlaris", "💬 Tanya Stok Tas", "📍 Lokasi"],
+        ["👜 Round Beach Bag", "👜 Retro Beach Bag", "👜 Straw Basket"],
+      ]),
       productCards: bagCards,
       actionLinks: [{ label: "Jelajahi Semua Tas", url: "/collections/beach-bags" }],
     };
   }
 
-  // 5. Kategori: Topi Pantai (Hats)
+  // 5. Kategori: Topi Pantai (Hats) — variasi
   if (
     cleanInput.includes("topi") ||
     cleanInput.includes("hat") ||
@@ -163,33 +181,47 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("pelindung matahari")
   ) {
     const hatCards = products.filter((p) => p.category === "hats").map(mapProductToCard);
-
+    const texts = [
+      `👒 **Oval Beach Hat** — anyaman jerami alami, teduh & sejuk. Cocok untuk foto pantai & jalan santai di Kuta.`,
+      `Topi pantai oval 🌞 — serat jerami, sirkulasi udara, gaya tropis. Lihat koleksi topi di bawah.`,
+      `👒 **Rekomendasi Topi** — Oval Beach Hat, brim lebar, nuansa Bali. Ilustrasi katalog, cek stok via chat.`,
+    ];
     return {
-      text: `👒 **Koleksi Topi Pantai ${brand}**\n\n**Oval Beach Hat** dianyam dari serat jerami alami yang memberikan perlindungan teduh maksimal dari sinar UV dengan sirkulasi udara yang sejuk dan ringan.`,
-      suggestions: ["👒 Buka Koleksi Topi", "👜 Lihat Tas Pantai", "🩴 Lihat Sandal Pantai"],
+      text: vary(texts),
+      suggestions: pick([
+        ["👒 Buka Koleksi Topi", "👜 Lihat Tas Pantai", "🩴 Lihat Sandal Pantai"],
+        ["✨ Detail Oval Hat", "💬 Tanya Stok Topi", "📸 Lookbook"],
+      ]),
       productCards: hatCards,
       actionLinks: [{ label: "Koleksi Topi Pantai", url: "/collections/sun-hats" }],
     };
   }
 
-  // 6. Kategori: Sandal Pantai (Footwear)
+  // 6. Kategori: Sandal Pantai (Footwear) — variasi
   if (
     cleanInput.includes("sandal") ||
     cleanInput.includes("alas kaki") ||
     cleanInput.includes("flip flop") ||
     cleanInput.includes("slip on")
   ) {
-    const shoeCards = products.filter((p) => p.category === "footwear").map(mapProductToCard);
-
+    const shoeCards = shuffle(products.filter((p) => p.category === "footwear")).map(mapProductToCard);
+    const texts = [
+      `🩴 **Sandal Pantai** — *Flip Flop* empuk & *Slip On* selop anyaman, sol anti-selip, nyaman di pasir.`,
+      `Langkah pantai Bali 🌊 — pilih **Flip Flop** santai atau **Slip On** praktis tanpa tali.`,
+      `🩴 **Rekomendasi Sandal** — 2 pilihan: jepit fleksibel & selop anyaman. Lihat kartu di bawah.`,
+    ];
     return {
-      text: `🩴 **Koleksi Sandal Pantai ${brand}**\n\nKenyamanan melangkah santai di tepi pantai:\n• **Flip Flop Beach Sandals** — Sandal jepit empuk dan fleksibel.\n• **Beach Sandals Slip On** — Sandal selop aksen anyaman dengan sol anti-selip.`,
-      suggestions: ["🩴 Buka Koleksi Sandal", "👜 Lihat Tas Pantai", "📍 Lokasi Toko"],
+      text: vary(texts),
+      suggestions: pick([
+        ["🩴 Buka Koleksi Sandal", "👜 Lihat Tas Pantai", "📍 Lokasi Toko"],
+        ["✨ Sandal Terlaris", "💬 Tanya Stok Sandal", "👒 Topi Pantai"],
+      ]),
       productCards: shoeCards,
       actionLinks: [{ label: "Jelajahi Sandal Pantai", url: "/collections/footwear" }],
     };
   }
 
-  // 7. Alamat / Lokasi / Jam Operasional
+  // 7. Alamat / Lokasi / Jam Operasional — variasi
   if (
     cleanInput.includes("alamat") ||
     cleanInput.includes("lokasi") ||
@@ -199,14 +231,22 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("jam operasional") ||
     cleanInput.includes("bali")
   ) {
+    const texts = [
+      `📍 **Lokasi & Jam ${brand}**\n\n• **Alamat**: ${address}\n• **Jam**: ${hours.weekdays} / ${hours.weekend}\n• ${hours.notes}`,
+      `Galeri kami di **${address}** 🌴\nBuka **${hours.weekdays}**, **${hours.weekend}**. Chat AI 24 jam siap bantu.`,
+      `📍 **${brand} — Kuta, Bali**\n${address}\n\n**Jam**: ${hours.weekdays}\n${hours.weekend}\n*${hours.notes}*`,
+    ];
     return {
-      text: `📍 **Lokasi Galeri & Jam Operasional ${brand}**\n\n• **Alamat**: ${address}\n• **Jam Buka**:\n  - ${hours.weekdays}\n  - ${hours.weekend}\n• **Layanan Online**: ${hours.notes}`,
-      suggestions: ["🗺️ Buka Halaman Kontak", "👜 Jelajahi Katalog", "✉️ Form Pemesanan"],
+      text: vary(texts),
+      suggestions: pick([
+        ["🗺️ Buka Halaman Kontak", "👜 Jelajahi Katalog", "✉️ Form Pemesanan"],
+        ["📍 Lihat Peta", "🕐 Jam Buka", "💬 Tanya Stok"],
+      ]),
       actionLinks: [{ label: "Lihat Peta & Kontak", url: "/contact" }],
     };
   }
 
-  // 8. Bahan & Perawatan (Materials & Care)
+  // 8. Bahan & Perawatan — variasi
   if (
     cleanInput.includes("bahan") ||
     cleanInput.includes("material") ||
@@ -217,14 +257,22 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("cuci") ||
     cleanInput.includes("tahan air")
   ) {
+    const texts = [
+      `🌿 **Bahan**: Rotan, pandan, jerami alami Bali.\n\n**Perawatan**: kuas debu, lap lembab jika kena air laut, angin-anginkan teduh, simpan kering berventilasi.`,
+      `Anyaman alami 🌴 — rotan kuat, pandan lentur, jerami ringan.\nTips: jangan jemur langsung, simpan di tempat sejuk kering.`,
+      `🌿 **Material**: serat alami pilihan.\nPerawatan: lap kering, hindari air berlebihan, simpan di rak berventilasi.`,
+    ];
     return {
-      text: `🌿 **Material & Panduan Perawatan Anyaman Alami**\n\n• **Bahan Utama**: Rotan alami Bali, daun pandan pilihan, dan serat jerami ramah lingkungan.\n• **Tips Perawatan**:\n  1. Bersihkan pasir/debu dengan kuas halus atau lap kering.\n  2. Jika terkena cipratan air laut, lap dengan kain lembab lalu angin-anginkan di tempat teduh.\n  3. Simpan di tempat kering dan berventilasi baik.`,
-      suggestions: ["👜 Lihat Koleksi Anyaman", "📸 Lihat Lookbook", "✉️ Form Pesanan"],
+      text: vary(texts),
+      suggestions: pick([
+        ["👜 Lihat Koleksi Anyaman", "📸 Lihat Lookbook", "✉️ Form Pesanan"],
+        ["🌿 Tips Merawat", "👒 Topi Jerami", "👜 Tas Rotan"],
+      ]),
       actionLinks: [{ label: "Buka Lookbook", url: "/pages/lookbook" }],
     };
   }
 
-  // 9. Harga, Beli, Order, Pemesanan
+  // 9. Harga, Beli, Order, Pemesanan — variasi
   if (
     cleanInput.includes("harga") ||
     cleanInput.includes("beli") ||
@@ -234,15 +282,23 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("promo") ||
     cleanInput.includes("diskon")
   ) {
+    const texts = [
+      `🛍️ **Harga**: mulai **Rp 75.000** (Sandal Slip On) s/d **Rp 250.000** (Tas Bulat) — estimasi katalog, cek stok via form.\nDiskon referensi 25% (umum) & 35% (tas bulat/bahu).`,
+      `💰 **Estimasi**: 75k–250k. Silakan isi form pemesanan — tim cek ketersediaan & total akhir via chat.`,
+      `🛍️ **Info Pesan**: harga katalog, bukan final. Klik *Form Pemesanan* di bawah, isi nama & email, tim proses cepat.`,
+    ];
     return {
-      text: `🛍️ **Informasi Pemesanan & Harga**\n\n• Seluruh koleksi memiliki estimasi harga mulai dari **Rp 180.000** hingga **Rp 550.000**.\n• Anda dapat mengajukan pemesanan atau konsultasi ketersediaan langsung melalui formulir di chat ini!`,
-      suggestions: ["📝 Buka Form Pemesanan", "👜 Semua Koleksi", "📍 Lokasi Toko"],
+      text: vary(texts),
+      suggestions: pick([
+        ["📝 Buka Form Pemesanan", "👜 Semua Koleksi", "📍 Lokasi Toko"],
+        ["💬 Tanya Harga Tas", "💬 Tanya Harga Sandal", "✉️ Kirim Pesan"],
+      ]),
       showInquiryForm: true,
       actionLinks: [{ label: "Lihat Semua Koleksi", url: "/collections/shop-all" }],
     };
   }
 
-  // 10. Saluran Kontak Resmi
+  // 10. Saluran Kontak Resmi — variasi
   if (
     cleanInput.includes("kontak") ||
     cleanInput.includes("hubungi") ||
@@ -250,28 +306,44 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("instagram") ||
     cleanInput.includes("ig")
   ) {
+    const texts = [
+      `📞 **Kontak ${brand}**\n• **Email**: ${siteConfig.brand.email}\n• **IG**: @${siteConfig.brand.instagram}\n• **Alamat**: ${address}\n• **Chat AI**: 24 jam`,
+      `Hubungi kami 💬\n**Email** ${siteConfig.brand.email}\n**IG** @${siteConfig.brand.instagram}\n**Alamat** ${address}`,
+      `📧 **${brand}** — Email ${siteConfig.brand.email} | IG @${siteConfig.brand.instagram} | ${address}`,
+    ];
     return {
-      text: `📞 **Saluran Kontak Resmi ${brand}**\n\n• **Email**: ${siteConfig.brand.email}\n• **Instagram**: @${siteConfig.brand.instagram}\n• **Alamat**: ${address}\n• **Layanan Chat**: AI Assistant aktif 24 jam untuk konsultasi dan pencatatan pesanan.`,
-      suggestions: ["📝 Form Pemesanan", "🗺️ Halaman Kontak", "📸 Instagram @aesthetic.id"],
+      text: vary(texts),
+      suggestions: pick([
+        ["📝 Form Pemesanan", "🗺️ Halaman Kontak", "📸 Instagram @aesthetic.id"],
+        ["✉️ Kirim Pesan", "📍 Lokasi", "👜 Koleksi"],
+      ]),
       actionLinks: [{ label: "Halaman Kontak", url: "/contact" }],
     };
   }
 
-  // 11. Lookbook
+  // 11. Lookbook — variasi
   if (
     cleanInput.includes("lookbook") ||
     cleanInput.includes("inspirasi") ||
     cleanInput.includes("gaya") ||
     cleanInput.includes("ootd")
   ) {
+    const texts = [
+      `✨ **Lookbook ${brand}** — 4 cerita visual *golden hour* Bali: Bulat & Matahari, Teduh Oval, Langkah Pantai, Retro.`,
+      `📸 **Inspirasi Gaya Pantai** — lihat Lookbook untuk padu-padan tas, topi, sandal di pasir & ombak.`,
+      `Lookbook 🌊 — kurasi foto pantai Bali untuk ide OOTD liburan. Klik buka Lookbook.`,
+    ];
     return {
-      text: `✨ **Lookbook Pantai ${brand}**\n\nKunjungi halaman **Lookbook** untuk melihat 4 kurasi cerita visual bernuansa *golden hour* di pesisir pantai Bali.`,
-      suggestions: ["📸 Buka Lookbook", "👜 Lihat Koleksi Tas", "👒 Topi Pantai"],
+      text: vary(texts),
+      suggestions: pick([
+        ["📸 Buka Lookbook", "👜 Lihat Koleksi Tas", "👒 Topi Pantai"],
+        ["✨ Cerita 01", "✨ Cerita 03", "👜 Semua Koleksi"],
+      ]),
       actionLinks: [{ label: "Buka Halaman Lookbook", url: "/pages/lookbook" }],
     };
   }
 
-  // 12. Terima Kasih / Penutup
+  // 12. Terima Kasih / Penutup — variasi
   if (
     cleanInput.includes("terima kasih") ||
     cleanInput.includes("makasih") ||
@@ -279,24 +351,40 @@ export function processChatbotMessage(input: string, history: ChatMessage[] = []
     cleanInput.includes("oke") ||
     cleanInput.includes("siap")
   ) {
+    const texts = [
+      `Sama-sama! Senang bantu di **${brand}** 🌊. Mau lihat tas, topi, atau sandal lagi?`,
+      `Terima kasih kembali 🙏 — kapan pun butuh rekomendasi pantai, chat saja!`,
+      `Siap! 🌴 Tim ${brand} siap bantu lagi. Pilih koleksi atau tanya stok.`,
+    ];
     return {
-      text: `Sama-sama! Senang bisa membantu Anda di **${brand}** 🌊. Jangan ragu bertanya lagi jika butuh rekomendasi koleksi pantai lainnya.`,
-      suggestions: ["👜 Rekomendasi Tas", "👒 Koleksi Topi", "🩴 Koleksi Sandal"],
+      text: vary(texts),
+      suggestions: pick([
+        ["👜 Rekomendasi Tas", "👒 Koleksi Topi", "🩴 Koleksi Sandal"],
+        ["✨ Koleksi Terlaris", "📍 Alamat Toko", "💬 Tanya Stok"],
+      ]),
       actionLinks: [{ label: "Buka Semua Koleksi", url: "/collections/shop-all" }],
     };
   }
 
-  // 13. Fallback
+  // 13. Fallback — variasi
+  const fallbacks = [
+    {
+      text: `Saya **${siteConfig.chatbot.botName}** — asisten katalog **${brand}** 🌊\n\nPilih topik di bawah atau ketik bebas (mis. "tas bulat 115k" atau "bahan rotan").`,
+      suggestions: ["👜 Rekomendasi Tas Pantai", "👒 Koleksi Topi Anyaman", "🩴 Sandal Pantai Nyaman", "📝 Form Pemesanan / Konsultasi", "🌿 Bahan & Cara Perawatan", "📍 Alamat & Jam Buka"],
+    },
+    {
+      text: `Hai! Saya bantu jelajahi **8 koleksi ${brand}** 🌴\n\nCoba ketik: "Topi oval", "sandal 75k", atau "alamat toko".`,
+      suggestions: ["✨ Koleksi 115k", "👜 Tas 250k Diskon 35%", "🩴 Sandal 75k", "📸 Lookbook", "✉️ Kirim Pesan"],
+    },
+    {
+      text: `Butuh rekomendasi? 🌊\n\nSaya simulasi AI katalog — jawab cepat seputar tas, topi, sandal, bahan, harga, atau lokasi. Pilih chip di bawah.`,
+      suggestions: ["👜 Tas Pantai", "👒 Topi", "🩴 Sandal", "💬 Tanya Stok", "📍 Lokasi", "🌿 Perawatan"],
+    },
+  ];
+  const picked = pick(fallbacks);
   return {
-    text: `Saya adalah **${siteConfig.chatbot.botName}** untuk **${brand}** 🌊.\n\nBerikut menu dan topik populer yang dapat Anda pilih:`,
-    suggestions: [
-      "👜 Rekomendasi Tas Pantai",
-      "👒 Koleksi Topi Anyaman",
-      "🩴 Sandal Pantai Nyaman",
-      "📝 Form Pemesanan / Konsultasi",
-      "🌿 Bahan & Cara Perawatan",
-      "📍 Alamat & Jam Buka",
-    ],
+    text: picked.text,
+    suggestions: picked.suggestions,
     actionLinks: [
       { label: "Buka Semua Koleksi", url: "/collections/shop-all" },
       { label: "Halaman Kontak", url: "/contact" },

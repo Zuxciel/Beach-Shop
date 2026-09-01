@@ -338,7 +338,7 @@ export function ChatbotWidget() {
   return (
     <>
       {/* Floating Launcher Button — positioned with clearance above bottom nav */}
-      <div className="fixed bottom-[74px] right-3.5 z-30 sm:bottom-6 sm:right-6">
+      <div className="fixed bottom-[72px] max-[360px]:bottom-[66px] right-3 max-[360px]:right-2.5 z-30 sm:bottom-6 sm:right-6">
         {!isOpen && (
           <button
             onClick={() => {
@@ -346,9 +346,9 @@ export function ChatbotWidget() {
               setUnreadCount(0);
             }}
             aria-label="Buka AI Assistant"
-            className="group relative flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-ocean text-white shadow-lg shadow-ocean/30 transition-all duration-300 hover:scale-105 hover:bg-[#0f2e2c] focus:outline-none"
+            className="group relative flex h-11 w-11 max-[360px]:h-10 max-[360px]:w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full btn-premium text-white shadow-lg shadow-ocean/30 transition-all duration-300 hover:scale-108 focus:outline-none cursor-pointer"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="max-[360px]:w-[18px] max-[360px]:h-[18px]">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
             <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">

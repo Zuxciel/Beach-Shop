@@ -47,46 +47,46 @@ export function ContactForm({ product }: { product?: string }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-3.5 sm:space-y-4">
       <div>
-        <label className="block text-xs font-semibold text-charcoal">Nama Lengkap *</label>
+        <label className="block text-[11px] sm:text-xs font-semibold text-charcoal">Nama Lengkap *</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
           placeholder="Nama Anda"
-          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-4 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white"
+          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white focus:ring-1 focus:ring-ocean/20"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-charcoal">Alamat Email *</label>
+        <label className="block text-[11px] sm:text-xs font-semibold text-charcoal">Alamat Email *</label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
           required
           placeholder="email@example.com"
-          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-4 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white"
+          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white focus:ring-1 focus:ring-ocean/20"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-charcoal">Pesan / Pertanyaan *</label>
+        <label className="block text-[11px] sm:text-xs font-semibold text-charcoal">Pesan / Pertanyaan *</label>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
-          rows={4}
+          rows={3}
           placeholder="Tuliskan pertanyaan atau kebutuhan Anda..."
-          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-4 py-2.5 text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white resize-none"
+          className="mt-1 w-full rounded-xl border border-sand-200 bg-[#fdfbf7] px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-charcoal outline-none transition focus:border-ocean focus:bg-white focus:ring-1 focus:ring-ocean/20 resize-none"
         />
       </div>
 
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full rounded-full bg-ocean py-3 text-sm font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition disabled:opacity-60"
+        className="w-full rounded-full btn-premium py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white shadow-sm disabled:opacity-60 cursor-pointer"
       >
         {status === "loading" ? "Mengirim Pesan..." : "Kirim Pesan"}
       </button>
@@ -102,7 +102,7 @@ export function ContactForm({ product }: { product?: string }) {
           {msg}
         </div>
       )}
-      <p className="text-[11px] text-stone-500 text-center">
+      <p className="text-[10px] sm:text-[11px] text-stone-500 text-center">
         Pesan Anda akan diterima oleh tim {siteConfig.brand.name}.
       </p>
     </form>

@@ -31,17 +31,21 @@ export function NewsletterForm({ placeholder = "Email Anda" }: { placeholder?: s
 
   return (
     <div className="w-full">
-      <form onSubmit={onSubmit} className="flex gap-2">
+      <form onSubmit={onSubmit} className="flex gap-2 newsletter-form-responsive">
         <input
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-ocean disabled:opacity-60"
+          className="flex-1 min-w-0 rounded-full border border-sand-200 bg-white px-4 max-[400px]:px-3 py-2.5 text-sm max-[400px]:text-xs outline-none focus:border-ocean focus:ring-1 focus:ring-ocean/20 disabled:opacity-60 transition-all"
           disabled={status === "loading"}
         />
-        <button type="submit" disabled={status === "loading"} className="rounded-full bg-ocean px-6 py-2.5 text-sm font-medium text-white hover:bg-[#0f2e2c] disabled:opacity-60">
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="rounded-full btn-premium px-6 max-[400px]:px-5 py-2.5 text-sm max-[400px]:text-xs font-medium text-white disabled:opacity-60 shrink-0 transition-all"
+        >
           {status === "loading" ? "..." : "Join"}
         </button>
       </form>

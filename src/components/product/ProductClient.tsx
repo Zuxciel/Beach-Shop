@@ -27,12 +27,12 @@ export function ProductClient({ product }: { product: Product }) {
   };
 
   return (
-    <div className="mx-auto max-w-[1400px] px-3 max-[400px]:px-2.5 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-8 overflow-hidden">
+    <div className="mx-auto max-w-[1400px] px-3.5 max-[360px]:px-2.5 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8 overflow-hidden">
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-4 md:mb-6 text-xs text-stone-500">
+      <nav aria-label="Breadcrumb" className="mb-4 sm:mb-6 text-xs text-stone-500">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
-            <Link href="/" className="hover:text-ocean">
+            <Link href="/" className="hover:text-ocean transition-colors">
               Home
             </Link>
           </li>
@@ -40,25 +40,25 @@ export function ProductClient({ product }: { product: Product }) {
           <li>
             <Link
               href={`/collections/${product.category === "bags" ? "beach-bags" : product.category === "hats" ? "sun-hats" : "footwear"}`}
-              className="hover:text-ocean capitalize"
+              className="hover:text-ocean capitalize transition-colors"
             >
               {product.category === "bags" ? "Tas Pantai" : product.category === "hats" ? "Topi Pantai" : "Sandal Pantai"}
             </Link>
           </li>
           <li>/</li>
-          <li className="text-charcoal font-medium truncate max-w-[180px] sm:max-w-none">{product.title}</li>
+          <li className="text-charcoal font-medium truncate max-w-[160px] sm:max-w-none">{product.title}</li>
         </ol>
       </nav>
 
-      <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:gap-12">
         <Gallery images={product.images} title={product.title} />
 
-        {/* Details — 2 kolom di tablet (768-1024) & desktop (>1024), sticky hanya di desktop sesuai spec */}
-        <div className="lg:sticky lg:top-[80px] lg:h-fit md:pl-4 lg:pl-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
+        {/* Details */}
+        <div className="lg:sticky lg:top-[84px] lg:h-fit min-w-0">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
             {siteConfig.brand.name} • {product.productType}
           </p>
-          <h1 className="mt-1.5 font-display text-xl max-[400px]:text-[20px] sm:text-2xl md:text-3xl lg:text-[34px] leading-tight text-charcoal break-words">
+          <h1 className="mt-1.5 font-display text-2xl sm:text-3xl lg:text-[34px] leading-tight text-charcoal break-words">
             {product.title}
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-stone-500 break-words">{product.material}</p>
@@ -72,7 +72,7 @@ export function ProductClient({ product }: { product: Product }) {
               </span>
             )}
             {hasDiscount ? (
-              <span className="rounded-full bg-clay px-2 py-0.5 text-[11px] font-bold text-white">
+              <span className="rounded-full bg-clay px-2 py-0.5 text-[11px] font-bold text-white shadow-2xs">
                 -{discount}%
               </span>
             ) : (
@@ -93,24 +93,24 @@ export function ProductClient({ product }: { product: Product }) {
           />
 
           {/* Chatbot Action Card */}
-          <div className="mt-5 rounded-2xl border border-sand-200 bg-sand-50 p-4 sm:p-5 shadow-sm">
+          <div className="mt-5 rounded-2xl border border-sand-200 bg-sand-50 p-4 sm:p-5 card-elevated">
             <div className="flex items-center gap-2 text-ocean font-medium text-xs sm:text-sm">
               <span className="flex h-2 w-2 rounded-full bg-emerald-500"></span>
               Konsultasi Langsung dengan Asisten AI
             </div>
-            <p className="mt-1 text-xs leading-5 text-stone-600">
+            <p className="mt-1.5 text-xs leading-5 text-stone-600">
               Ingin tahu lebih banyak tentang ukuran, ketersediaan, atau tips padu-padan untuk <b>{product.title}</b>? Tanyakan langsung ke asisten AI kami.
             </p>
-            <div className="mt-3 flex flex-col sm:flex-row gap-2">
+            <div className="mt-3.5 flex flex-col sm:flex-row gap-2">
               <button
                 onClick={openChatForProduct}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-ocean px-5 py-2.5 text-xs sm:text-sm font-medium text-white hover:bg-[#0f2e2c] transition shadow"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-full btn-premium px-5 py-2.5 text-xs sm:text-sm font-medium text-white shadow-sm cursor-pointer"
               >
                 <span>💬</span> Tanya Asisten AI
               </button>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full border border-sand-200 bg-white px-5 py-2.5 text-xs sm:text-sm font-medium hover:border-ocean transition text-stone-700"
+                className="inline-flex items-center justify-center rounded-full border border-sand-200 bg-white px-5 py-2.5 text-xs sm:text-sm font-medium hover:border-ocean transition text-stone-700 text-center"
               >
                 Info Toko
               </Link>
@@ -145,10 +145,10 @@ export function ProductClient({ product }: { product: Product }) {
       <CrossSell currentHandle={product.handle} />
 
       {/* Mobile Sticky CTA — sits above BottomNav */}
-      <div className="fixed inset-x-0 bottom-16 z-20 flex gap-2 border-t border-sand-200 bg-white/95 backdrop-blur p-2.5 md:hidden shadow-md">
+      <div className="fixed inset-x-0 bottom-16 max-[360px]:bottom-14 z-20 flex gap-2 border-t border-sand-200/80 bg-white/95 backdrop-blur-md p-2.5 md:hidden shadow-[0_-2px_10px_rgba(44,36,27,0.08)]">
         <button
           onClick={openChatForProduct}
-          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-ocean py-2.5 text-xs font-medium text-white shadow"
+          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full btn-premium py-2.5 text-xs font-medium text-white shadow cursor-pointer"
         >
           <span>💬</span> Tanya Asisten AI
         </button>
@@ -159,7 +159,7 @@ export function ProductClient({ product }: { product: Product }) {
           Kontak
         </Link>
       </div>
-      <div className="h-24 md:hidden" aria-hidden />
+      <div className="h-28 md:hidden" aria-hidden />
     </div>
   );
 }

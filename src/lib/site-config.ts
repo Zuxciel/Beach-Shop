@@ -125,6 +125,42 @@ export const siteConfig = {
     placeholder: "Email Anda",
     discountBadge: "Kabar Koleksi",
   },
+
+  // === Navigasi & Footer — terpusat agar mudah diubah ===
+  navigation: {
+    main: [
+      { href: "/collections/shop-all", label: "Koleksi" },
+      { href: "/collections/beach-bags", label: "Tas Pantai" },
+      { href: "/collections/sun-hats", label: "Topi" },
+      { href: "/collections/footwear", label: "Sandal" },
+      { href: "/pages/lookbook", label: "Lookbook" },
+      { href: "/contact", label: "Kontak" },
+    ] as const,
+    footer: {
+      collections: [
+        { href: "/collections/shop-all", label: "Semua Koleksi" },
+        { href: "/collections/beach-bags", label: "Tas Pantai" },
+        { href: "/collections/sun-hats", label: "Topi Pantai" },
+        { href: "/collections/footwear", label: "Sandal Pantai" },
+      ],
+      pages: [
+        { href: "/pages/lookbook", label: "Lookbook Cerita" },
+        { href: "/contact", label: "Kontak & Lokasi" },
+        { href: "/wishlist", label: "Wishlist" },
+      ],
+    },
+    socials: {
+      instagram: "https://instagram.com/aesthetic.id",
+      tiktok: "https://tiktok.com/@aesthetic.id",
+      pinterest: "https://pinterest.com/aestheticid",
+    },
+  },
+
+  // === SEO & Legal — info penting terpusat ===
+  legal: {
+    copyrightYear: 2026,
+    description: "Katalog identitas ilustratif — foto & harga referensi, bukan penawaran mengikat.",
+  },
 };
 
 export function getPromoByCode(code: string) {

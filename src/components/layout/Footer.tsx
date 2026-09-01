@@ -11,24 +11,24 @@ export function Footer() {
 
   return (
     <footer className="border-t border-sand-200 bg-sand-50">
-      <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 lg:px-8 md:py-12">
+      <div className="mx-auto max-w-[1400px] px-3.5 max-[360px]:px-2.5 sm:px-6 lg:px-8 py-10 max-[360px]:py-8 md:py-14">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
-          <div>
-            <p className="font-display text-xl tracking-[0.2em]">{siteConfig.brand.shortName}</p>
-            <p className="text-[10px] tracking-[0.3em] text-stone-500 uppercase">OF INDONESIA</p>
-            <p className="mt-3 max-w-xs text-sm leading-6 text-stone-600">
+          <div className="min-w-0">
+            <p className="font-display text-xl max-[360px]:text-lg tracking-[0.2em]">{siteConfig.brand.shortName}</p>
+            <p className="text-[9px] max-[360px]:text-[8px] tracking-[0.3em] text-stone-500 uppercase">OF INDONESIA</p>
+            <p className="mt-3 max-w-xs text-xs sm:text-sm leading-5 sm:leading-6 text-stone-600">
               Koleksi kerajinan anyaman tas, topi, dan sandal bertema pantai yang terinspirasi dari keindahan alam Bali.
             </p>
-            <div className="mt-3 text-xs text-stone-500 space-y-0.5">
-              <p>{siteConfig.brand.address}</p>
-              <p>{siteConfig.brand.email}</p>
+            <div className="mt-3 text-xs text-stone-500 space-y-1">
+              <p className="break-words">{siteConfig.brand.address}</p>
+              <p className="break-all">{siteConfig.brand.email}</p>
               <p>IG: @{siteConfig.brand.instagram}</p>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               <button
                 onClick={openChat}
-                className="inline-flex items-center gap-1.5 rounded-full bg-ocean px-4 py-2 text-xs font-medium text-white hover:bg-[#0f2e2c] transition shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-full btn-premium px-4 py-2 text-xs font-medium text-white shadow-sm"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
                 AI Chatbot
@@ -43,57 +43,41 @@ export function Footer() {
           </div>
 
           {/* Koleksi column */}
-          <div>
+          <div className="min-w-0">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-charcoal">Koleksi</h4>
-            <ul className="mt-3 space-y-2.5 text-sm text-stone-600">
-              <li>
-                <Link href="/collections/shop-all" className="hover:text-ocean transition">
-                  Semua Koleksi
-                </Link>
-              </li>
-              <li>
-                <Link href="/collections/beach-bags" className="hover:text-ocean transition">
-                  Tas Pantai
-                </Link>
-              </li>
-              <li>
-                <Link href="/collections/sun-hats" className="hover:text-ocean transition">
-                  Topi Pantai
-                </Link>
-              </li>
-              <li>
-                <Link href="/collections/footwear" className="hover:text-ocean transition">
-                  Sandal Pantai
-                </Link>
-              </li>
+            <ul className="mt-3 space-y-2 text-xs sm:text-sm text-stone-600">
+              {siteConfig.navigation.footer.collections.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="hover:text-ocean transition link-underline-grow inline-block">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Navigasi column */}
-          <div>
+          <div className="min-w-0">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-charcoal">Navigasi</h4>
-            <ul className="mt-3 space-y-2.5 text-sm text-stone-600">
+            <ul className="mt-3 space-y-2 text-xs sm:text-sm text-stone-600">
+              {siteConfig.navigation.footer.pages.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="hover:text-ocean transition link-underline-grow inline-block">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
               <li>
-                <Link href="/pages/lookbook" className="hover:text-ocean transition">
-                  Lookbook Cerita
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-ocean transition">
-                  Kontak & Lokasi
-                </Link>
-              </li>
-              <li>
-                <button onClick={openChat} className="hover:text-ocean transition text-left">
+                <button onClick={openChat} className="hover:text-ocean transition text-left cursor-pointer link-underline-grow inline-block">
                   Konsultasi AI Chatbot
                 </button>
               </li>
               <li>
                 <a
-                  href={`https://instagram.com/${siteConfig.brand.instagram}`}
+                  href={siteConfig.navigation.socials.instagram}
                   target="_blank"
                   rel="noopener"
-                  className="hover:text-ocean transition"
+                  className="hover:text-ocean transition link-underline-grow inline-block"
                 >
                   Instagram @{siteConfig.brand.instagram}
                 </a>
@@ -102,18 +86,18 @@ export function Footer() {
           </div>
 
           {/* Newsletter column */}
-          <div>
+          <div className="min-w-0">
             <h4 className="text-xs font-semibold uppercase tracking-widest text-charcoal">Kabar Koleksi</h4>
-            <p className="mt-3 text-sm text-stone-600">
+            <p className="mt-3 text-xs sm:text-sm text-stone-600 leading-relaxed">
               Dapatkan kabar koleksi terbaru & cerita katalog langsung ke email Anda.
             </p>
-            <div className="mt-3">
+            <div className="mt-3 w-full max-w-full">
               <NewsletterForm placeholder={siteConfig.newsletter.placeholder} />
             </div>
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-sand-200 pt-6 text-xs text-stone-400 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-sand-200 pt-6 text-[11px] sm:text-xs text-stone-400 sm:flex-row text-center sm:text-left">
           <p>© 2026 {siteConfig.brand.name}. Seluruh hak cipta dilindungi.</p>
           <p>Katalog Kerajinan Pantai Bali</p>
         </div>

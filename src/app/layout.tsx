@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { ChatbotWidget } from "@/components/chat/ChatbotWidget";
+import { WishlistProvider } from "@/lib/wishlist-context";
 import { siteConfig } from "@/lib/site-config";
 
 const cormorant = Cormorant_Garamond({
@@ -168,14 +169,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://picsum.photos" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <AnnouncementBar />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        {/* Bottom nav spacer — only on mobile, matches BottomNav height */}
-        <div className="h-16 md:hidden" aria-hidden />
-        <BottomNav />
-        <ChatbotWidget />
+        <WishlistProvider>
+          <AnnouncementBar />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          {/* Bottom nav spacer — only on mobile, matches BottomNav height */}
+          <div className="h-16 md:hidden" aria-hidden />
+          <BottomNav />
+          <ChatbotWidget />
+        </WishlistProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

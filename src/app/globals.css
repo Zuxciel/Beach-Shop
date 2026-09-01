@@ -21,6 +21,12 @@
   --stone-500: #78716c;
   /* Bottom nav height for spacing */
   --bottom-nav-h: 64px;
+  /* Enhanced design tokens */
+  --shadow-card: 0 1px 3px rgba(44,36,27,0.06), 0 4px 12px rgba(44,36,27,0.04);
+  --shadow-card-hover: 0 4px 16px rgba(44,36,27,0.10), 0 8px 32px rgba(44,36,27,0.06);
+  --shadow-elevated: 0 8px 30px rgba(44,36,27,0.12), 0 2px 8px rgba(44,36,27,0.06);
+  --glass-bg: rgba(255,250,240,0.85);
+  --glass-border: rgba(236,224,197,0.5);
 }
 
 @theme inline {
@@ -102,4 +108,212 @@ html {
   body.chat-open {
     overflow: hidden;
   }
+}
+
+/* ========================================
+   DESIGN UPGRADE: Animations & Transitions
+   ======================================== */
+
+/* Scroll-triggered fade-in-up animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease both;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ========================================
+   DESIGN UPGRADE: Enhanced Cards & Glass
+   ======================================== */
+
+.card-elevated {
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+}
+
+/* ========================================
+   DESIGN UPGRADE: Fluid Typography
+   ======================================== */
+
+.text-fluid-hero {
+  font-size: clamp(2rem, 8vw, 4rem);
+  line-height: 0.9;
+}
+
+.text-fluid-section {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.text-fluid-card {
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+}
+
+/* ========================================
+   RESPONSIVE: Newsletter form stack
+   ======================================== */
+
+@media (max-width: 400px) {
+  .newsletter-form-responsive {
+    flex-direction: column;
+  }
+  .newsletter-form-responsive input,
+  .newsletter-form-responsive button {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   RESPONSIVE: CTA buttons stack on xs
+   ======================================== */
+
+@media (max-width: 400px) {
+  .cta-group-responsive {
+    flex-direction: column;
+    width: 100%;
+  }
+  .cta-group-responsive > * {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   DESIGN: Enhanced link hover effect
+   ======================================== */
+
+.link-underline-grow {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline-grow::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background: var(--ocean-teal);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-underline-grow:hover::after {
+  width: 100%;
+}
+
+/* ========================================
+   DESIGN: Gradient text utility
+   ======================================== */
+
+.text-gradient-ocean {
+  background: linear-gradient(135deg, var(--ocean-teal) 0%, var(--ocean-teal-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   DESIGN: Premium button gradient
+   ======================================== */
+
+.btn-premium {
+  background: linear-gradient(135deg, var(--ocean-teal) 0%, #1a5c58 50%, var(--ocean-teal-light) 100%);
+  background-size: 200% auto;
+  transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.btn-premium:hover {
+  background-position: right center;
+  box-shadow: 0 4px 20px rgba(26, 77, 74, 0.35);
+}
+
+.btn-premium:active {
+  transform: scale(0.98);
 }

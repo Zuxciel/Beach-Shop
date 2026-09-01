@@ -3,18 +3,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { siteConfig } from "@/lib/site-config";
+import { useWishlist } from "@/lib/wishlist-context";
 
-const navLinks = [
-  { href: "/collections/shop-all", label: "Koleksi" },
-  { href: "/collections/beach-bags", label: "Tas Pantai" },
-  { href: "/collections/sun-hats", label: "Topi" },
-  { href: "/collections/footwear", label: "Sandal" },
-  { href: "/pages/lookbook", label: "Lookbook" },
-  { href: "/contact", label: "Kontak" },
-];
+const navLinks = siteConfig.navigation.main as unknown as { href: string; label: string }[];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { count } = useWishlist();
 
   const openChat = () => {
     window.dispatchEvent(new CustomEvent("open-aesthetic-chat"));
@@ -22,16 +17,16 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-sand-200 bg-cream/90 backdrop-blur-md">
-        <div className="mx-auto flex h-[64px] max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-40 border-b border-sand-200/80 glass-effect">
+        <div className="mx-auto flex h-[60px] max-[400px]:h-[56px] sm:h-[64px] max-w-[1400px] items-center justify-between px-3 max-[400px]:px-2.5 sm:px-6 lg:px-8">
           {/* Mobile hamburger (visible only on < lg) */}
           <div className="flex items-center lg:hidden">
             <button
               aria-label="Buka menu navigasi"
               onClick={() => setMobileOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-sand-100 transition-colors"
+              className="flex h-9 w-9 max-[400px]:h-8 max-[400px]:w-8 items-center justify-center rounded-full hover:bg-sand-100 transition-colors"
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="max-[400px]:w-[18px] max-[400px]:h-[18px]">
                 <path d="M4 7h16M4 12h16M4 17h16" />
               </svg>
             </button>
@@ -39,10 +34,10 @@ export function Header() {
 
           {/* Brand Logo — left on desktop, centered on mobile */}
           <Link href="/" className="flex flex-col items-center lg:items-start text-center lg:text-left select-none group">
-            <span className="font-display text-[18px] sm:text-[20px] font-normal tracking-[0.14em] text-charcoal leading-none group-hover:text-ocean transition-colors">
+            <span className="font-display text-[16px] max-[400px]:text-[15px] sm:text-[20px] font-normal tracking-[0.14em] text-charcoal leading-none group-hover:text-ocean transition-colors">
               {siteConfig.brand.shortName}
             </span>
-            <span className="block text-[8px] sm:text-[9px] tracking-[0.3em] text-stone-500 font-sans font-medium uppercase mt-0.5">
+            <span className="block text-[7px] max-[400px]:text-[6.5px] sm:text-[9px] tracking-[0.3em] text-stone-500 font-sans font-medium uppercase mt-0.5">
               OF INDONESIA
             </span>
           </Link>
@@ -53,26 +48,30 @@ export function Header() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-xs xl:text-sm font-medium tracking-wide text-charcoal/80 hover:text-ocean transition-colors uppercase whitespace-nowrap"
+                className="link-underline-grow text-xs xl:text-sm font-medium tracking-wide text-charcoal/80 hover:text-ocean transition-colors uppercase whitespace-nowrap"
               >
                 {l.label}
               </Link>
             ))}
           </nav>
 
-          {/* Right Actions */}
+          {/* Right Actions — Wishlist lokal (AI hanya di floating pojok) */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              onClick={openChat}
-              className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-full bg-ocean px-5 text-xs xl:text-sm font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition"
+            <Link
+              href="/wishlist"
+              className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-full border border-sand-200 bg-white px-4 text-xs xl:text-sm font-medium text-charcoal hover:border-ocean hover:text-ocean transition-all hover:shadow-sm"
+              title="Wishlist tersimpan lokal"
             >
-              <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-              <span>Tanya AI Asisten</span>
-            </button>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill={count > 0 ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" className={count > 0 ? "text-clay" : "text-stone-500"}>
+                <path d="M12 21s-6.5-4.5-8.4-8.7A4.2 4.2 0 0 1 12 5a4.2 4.2 0 0 1 8.4 7.3C18.5 16.5 12 21 12 21Z" />
+              </svg>
+              Wishlist
+              {count > 0 && <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-clay px-1.5 text-[11px] font-bold text-white">{count}</span>}
+            </Link>
 
             <Link
               href="/contact"
-              className="hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full border border-sand-200 bg-white hover:border-ocean transition text-stone-700"
+              className="hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full border border-sand-200 bg-white hover:border-ocean hover:shadow-sm transition-all text-stone-700"
               title="Halaman Kontak & Lokasi"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -81,16 +80,17 @@ export function Header() {
               </svg>
             </Link>
 
-            {/* Mobile chat button */}
-            <button
-              onClick={openChat}
-              className="flex sm:hidden h-9 w-9 items-center justify-center rounded-full bg-ocean text-white shadow-sm"
-              aria-label="Tanya AI Asisten"
+            {/* Mobile wishlist button */}
+            <Link
+              href="/wishlist"
+              className="flex sm:hidden relative h-8 w-8 max-[400px]:h-7 max-[400px]:w-7 items-center justify-center rounded-full border border-sand-200 bg-white text-stone-700 shadow-sm"
+              aria-label="Wishlist"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill={count > 0 ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" className={`max-[400px]:w-[13px] max-[400px]:h-[13px] ${count > 0 ? "text-clay" : ""}`}>
+                <path d="M12 21s-6.5-4.5-8.4-8.7A4.2 4.2 0 0 1 12 5a4.2 4.2 0 0 1 8.4 7.3C18.5 16.5 12 21 12 21Z" />
               </svg>
-            </button>
+              {count > 0 && <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-clay text-[9px] font-bold text-white">{count}</span>}
+            </Link>
           </div>
         </div>
       </header>
@@ -98,8 +98,8 @@ export function Header() {
       {/* Mobile Drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-          <div className="absolute left-0 top-0 flex h-full w-[84%] max-w-[360px] flex-col bg-cream p-6 shadow-2xl">
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm animate-fade-in" onClick={() => setMobileOpen(false)} />
+          <div className="absolute left-0 top-0 flex h-full w-[84%] max-w-[360px] flex-col bg-cream p-6 max-[400px]:p-4 shadow-2xl animate-slide-left">
             <div className="flex items-center justify-between">
               <div>
                 <span className="font-display text-lg tracking-widest">{siteConfig.brand.shortName}</span>
@@ -107,7 +107,7 @@ export function Header() {
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-sand-100 text-stone-700"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-sand-100 text-stone-700 hover:bg-sand-200 transition-colors"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6 6 18M6 6l12 12" />
@@ -120,31 +120,32 @@ export function Header() {
                   key={l.href}
                   href={l.href}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-xl px-4 py-3 text-base font-medium hover:bg-sand-100 transition"
+                  className="rounded-xl px-4 py-3 text-base max-[400px]:text-sm font-medium hover:bg-sand-100 transition active:bg-sand-200"
                 >
                   {l.label}
                 </Link>
               ))}
             </nav>
             <div className="mt-auto border-t border-sand-200 pt-6 space-y-3">
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  openChat();
-                }}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-ocean py-3 text-sm font-medium text-white shadow"
+              <Link
+                href="/wishlist"
+                onClick={() => setMobileOpen(false)}
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-sand-200 bg-white py-3 text-sm font-medium text-charcoal hover:border-ocean transition-all"
               >
-                <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-                Tanya AI Chatbot
-              </button>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill={count > 0 ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" className={count > 0 ? "text-clay" : ""}>
+                  <path d="M12 21s-6.5-4.5-8.4-8.7A4.2 4.2 0 0 1 12 5a4.2 4.2 0 0 1 8.4 7.3C18.5 16.5 12 21 12 21Z" />
+                </svg>
+                Wishlist {count > 0 && `• ${count}`}
+              </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="flex w-full items-center justify-center gap-2 rounded-full border border-sand-200 bg-white py-3 text-sm font-medium"
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-sand-200 bg-white py-3 text-sm font-medium hover:border-ocean transition-all"
               >
                 Kontak & Lokasi
               </Link>
               <p className="text-center text-xs text-stone-500">{siteConfig.brand.address}</p>
+              <p className="text-center text-[11px] text-stone-400">AI Asisten ada di tombol pojok kanan bawah</p>
             </div>
           </div>
         </div>

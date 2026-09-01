@@ -44,62 +44,62 @@ export default function HomePage() {
 
       {/* Identitas Brand & Interaksi Chatbot */}
       <section className="bg-white border-y border-sand-200">
-        <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8 py-12 md:py-16">
+        <div className="mx-auto max-w-[1400px] px-3.5 max-[360px]:px-2.5 sm:px-6 lg:px-8 py-10 max-[360px]:py-8 md:py-16">
           <div className="grid gap-8 md:grid-cols-2 md:items-center">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
                 Identitas & Kurasi
               </p>
-              <h2 className="mt-2 font-display text-3xl md:text-4xl leading-tight">
+              <h2 className="mt-1.5 font-display text-2xl sm:text-3xl md:text-4xl leading-tight text-charcoal">
                 Aesthetic <span className="italic text-terracotta-dark">of Indonesia</span>
               </h2>
-              <p className="mt-4 text-sm leading-6 text-stone-600">
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-5 sm:leading-6 text-stone-600">
                 Situs ini menghadirkan kurasi 8 karya kerajinan bertema pantai sebagai representasi keahlian perajin lokal Bali. Mulai dari tas anyaman rotan bulat, tote bahu pandan, topi pelindung surya, hingga sandal empuk tepi laut.
               </p>
-              <p className="mt-3 text-sm leading-6 text-stone-600">
+              <p className="mt-2.5 text-xs sm:text-sm leading-5 sm:leading-6 text-stone-600">
                 Gunakan asisten virtual kami untuk mencari rekomendasi produk yang cocok dengan gaya liburan Anda atau tanyakan informasi bahan dan lokasi toko.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-5 sm:mt-6 flex flex-wrap gap-2.5 sm:gap-3">
                 <Link
                   href="/collections/shop-all"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-ocean px-7 text-sm font-medium text-white hover:bg-[#0f2e2c] transition shadow-sm"
+                  className="inline-flex h-10 sm:h-11 items-center justify-center rounded-full btn-premium px-5 sm:px-7 text-xs sm:text-sm font-medium text-white shadow-sm"
                 >
                   Jelajahi Koleksi
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-sand-200 bg-white px-7 text-sm font-medium hover:border-ocean transition"
+                  className="inline-flex h-10 sm:h-11 items-center justify-center rounded-full border border-sand-200 bg-white px-5 sm:px-7 text-xs sm:text-sm font-medium hover:border-ocean hover:text-ocean transition"
                 >
                   Lokasi & Kontak
                 </Link>
               </div>
-              <div className="mt-6 flex gap-6 text-xs text-stone-500">
+              <div className="mt-5 sm:mt-6 flex flex-wrap gap-x-4 gap-y-1 text-[11px] sm:text-xs text-stone-500">
                 <span>8 Koleksi Unggulan</span>
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>Kerajinan Tradisional Bali</span>
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>AI Chatbot 24 Jam</span>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-3">
-                <div className="h-32 rounded-2xl bg-sand-100 flex items-center justify-center text-sm font-medium text-stone-600 border border-sand-200">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+              <div className="space-y-2.5 sm:space-y-3">
+                <div className="h-28 sm:h-32 rounded-xl sm:rounded-2xl bg-sand-100 flex items-center justify-center text-xs sm:text-sm font-medium text-stone-600 border border-sand-200 p-2 text-center card-elevated">
                   Rotan Alami
                 </div>
-                <div className="h-40 rounded-2xl bg-ocean text-white flex flex-col items-center justify-center p-4 text-center shadow-sm">
-                  <p className="font-display text-3xl font-light">8</p>
-                  <p className="text-xs tracking-wider uppercase mt-1">
+                <div className="h-36 sm:h-40 rounded-xl sm:rounded-2xl btn-premium text-white flex flex-col items-center justify-center p-3 sm:p-4 text-center shadow-md">
+                  <p className="font-display text-2xl sm:text-3xl font-light">8</p>
+                  <p className="text-[10px] sm:text-xs tracking-wider uppercase mt-1">
                     Koleksi
                     <br />
                     Katalog
                   </p>
                 </div>
               </div>
-              <div className="space-y-3">
-                <div className="h-40 rounded-2xl bg-sand-200 flex items-center justify-center text-sm font-medium text-stone-700 border border-sand-300">
+              <div className="space-y-2.5 sm:space-y-3">
+                <div className="h-36 sm:h-40 rounded-xl sm:rounded-2xl bg-sand-200 flex items-center justify-center text-xs sm:text-sm font-medium text-stone-700 border border-sand-300 p-2 text-center card-elevated">
                   Daun Pandan
                 </div>
-                <div className="h-32 rounded-2xl bg-sand-100 flex items-center justify-center text-sm font-medium text-stone-600 border border-sand-200">
+                <div className="h-28 sm:h-32 rounded-xl sm:rounded-2xl bg-sand-100 flex items-center justify-center text-xs sm:text-sm font-medium text-stone-600 border border-sand-200 p-2 text-center card-elevated">
                   Serat Jerami
                 </div>
               </div>
@@ -113,13 +113,13 @@ export default function HomePage() {
 
       {/* Newsletter */}
       <section className="border-y border-sand-200 bg-white">
-        <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 lg:px-8 flex flex-col items-center text-center">
-          <p className="font-display text-2xl md:text-3xl">{siteConfig.newsletter.title}</p>
-          <p className="mt-2 text-sm text-stone-600 max-w-xl">{siteConfig.newsletter.subtitle}</p>
-          <div className="mt-6 w-full max-w-md">
+        <div className="mx-auto max-w-[1400px] px-3.5 max-[360px]:px-2.5 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16 flex flex-col items-center text-center">
+          <p className="font-display text-2xl sm:text-3xl md:text-4xl text-charcoal">{siteConfig.newsletter.title}</p>
+          <p className="mt-2 text-xs sm:text-sm text-stone-600 max-w-xl leading-relaxed">{siteConfig.newsletter.subtitle}</p>
+          <div className="mt-5 sm:mt-6 w-full max-w-md">
             <NewsletterForm placeholder={siteConfig.newsletter.placeholder} />
           </div>
-          <p className="mt-2 text-xs text-stone-500">Dapatkan kabar koleksi dan cerita terbaru dari Bali.</p>
+          <p className="mt-2 text-[11px] sm:text-xs text-stone-500">Dapatkan kabar koleksi dan cerita terbaru dari Bali.</p>
         </div>
       </section>
 
