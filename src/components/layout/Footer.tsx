@@ -15,8 +15,19 @@ export function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="min-w-0">
-            <p className="font-display text-xl max-[360px]:text-lg tracking-[0.2em]">{siteConfig.brand.shortName}</p>
-            <p className="text-[9px] max-[360px]:text-[8px] tracking-[0.3em] text-stone-500 uppercase">OF INDONESIA</p>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-sand-100 border border-sand-200/80 text-ocean shadow-2xs">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" strokeDasharray="1 2" />
+                  <path d="M12 7c-2.5 0-4.5 2-4.5 5s2 5 4.5 5 4.5-2 4.5-5-2-5-4.5-5Z" />
+                  <path d="M7.5 12h9M12 3v3M12 18v3" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-display text-lg tracking-[0.2em] leading-none">{siteConfig.brand.shortName}</p>
+                <p className="text-[8px] tracking-[0.3em] text-stone-500 uppercase mt-0.5">OF INDONESIA</p>
+              </div>
+            </div>
             <p className="mt-3 max-w-xs text-xs sm:text-sm leading-5 sm:leading-6 text-stone-600">
               Koleksi kerajinan anyaman tas, topi, dan sandal bertema pantai yang terinspirasi dari keindahan alam Bali.
             </p>

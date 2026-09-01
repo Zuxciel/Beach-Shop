@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import type { ChatMessage, ProductCardData } from "@/lib/chatbot-engine";
 import { submitInquiry } from "@/lib/firebase-chat";
@@ -119,7 +120,12 @@ function InChatInquiryForm({
   if (submitted) {
     return (
       <div className="mt-2.5 rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-xs text-emerald-800">
-        <p className="font-semibold">✓ Data Pesanan Tercatat di Panel Toko</p>
+        <p className="font-semibold flex items-center gap-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Data Pesanan Tercatat di Panel Toko
+        </p>
         <p className="mt-0.5 text-[11px] text-emerald-700">
           Terima kasih {name}. Tim kami akan menghubungi Anda segera melalui {contact}.
         </p>
@@ -180,9 +186,13 @@ function InChatInquiryForm({
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-lg bg-ocean py-2 text-xs font-medium text-white shadow-sm hover:bg-[#0f2e2c] transition disabled:opacity-60"
+        className="w-full rounded-lg btn-premium py-2 text-xs font-medium text-white shadow-sm disabled:opacity-60 cursor-pointer flex items-center justify-center gap-1.5"
       >
-        {submitting ? "Mencatat ke Panel..." : "Kirim Data Pesanan ke Admin 📋"}
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+        </svg>
+        <span>{submitting ? "Mencatat ke Panel..." : "Kirim Data Pesanan ke Admin"}</span>
       </button>
     </form>
   );
@@ -190,6 +200,9 @@ function InChatInquiryForm({
 
 // --- Main Chatbot Widget Component ---
 export function ChatbotWidget() {
+  const pathname = usePathname();
+  const isProductPage = pathname?.startsWith("/products/");
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -312,7 +325,7 @@ export function ChatbotWidget() {
         sender: "bot",
         text: `Ada yang bisa saya bantu terkait koleksi **${siteConfig.brand.name}**? Anda juga dapat melihat katalog lengkap kami.`,
         timestamp: Date.now(),
-        suggestions: ["👜 Rekomendasi Tas", "👒 Topi Pantai", "📍 Lokasi Toko"],
+        suggestions: ["Rekomendasi Tas", "Topi Pantai", "Lokasi Toko"],
         actionLinks: [{ label: "Semua Koleksi", url: "/collections/shop-all" }],
       };
       setMessages((prev) => [...prev, fallbackMsg]);
@@ -337,9 +350,9 @@ export function ChatbotWidget() {
 
   return (
     <>
-      {/* Floating Launcher Button — positioned with clearance above bottom nav */}
-      <div className="fixed bottom-[72px] max-[360px]:bottom-[66px] right-3 max-[360px]:right-2.5 z-30 sm:bottom-6 sm:right-6">
-        {!isOpen && (
+      {/* Floating Launcher Button — hidden on product pages to prevent collision */}
+      {!isOpen && !isProductPage && (
+        <div className="fixed bottom-[72px] max-[360px]:bottom-[66px] right-3 max-[360px]:right-2.5 z-30 sm:bottom-6 sm:right-6">
           <button
             onClick={() => {
               setIsOpen(true);
@@ -361,8 +374,8 @@ export function ChatbotWidget() {
               </span>
             )}
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Chat Window Panel */}
       {isOpen && (
@@ -370,8 +383,10 @@ export function ChatbotWidget() {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-sand-200 bg-ocean px-4 py-3.5 text-white sm:px-5 sm:py-4 sm:rounded-t-3xl">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-base">
-                🌊
+              <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white shadow-2xs border border-white/20">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                </svg>
                 <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-ocean bg-emerald-400"></span>
               </div>
               <div>
@@ -383,7 +398,7 @@ export function ChatbotWidget() {
               <button
                 onClick={handleResetChat}
                 title="Bersihkan Percakapan"
-                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/15 transition text-white/80 hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/15 transition text-white/80 hover:text-white cursor-pointer"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
@@ -394,7 +409,7 @@ export function ChatbotWidget() {
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/15 transition text-white/80 hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/15 transition text-white/80 hover:text-white cursor-pointer"
                 aria-label="Tutup Chat"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -449,16 +464,16 @@ export function ChatbotWidget() {
                           <div className="flex flex-col gap-1 shrink-0">
                             <button
                               onClick={() => handleSendMessage(`Pesan ${p.title}`)}
-                              className="rounded-md bg-ocean px-2 py-1 text-[10px] font-medium text-white shadow-xs hover:bg-[#0f2e2c]"
+                              className="rounded-md btn-premium px-2 py-1 text-[10px] font-medium text-white shadow-2xs cursor-pointer"
                             >
-                              Pesan 🛒
+                              Pesan
                             </button>
                             <Link
                               href={`/products/${p.handle}`}
                               onClick={() => {
                                 if (window.innerWidth < 640) setIsOpen(false);
                               }}
-                              className="rounded-md border border-sand-200 bg-white px-2 py-0.5 text-[10px] font-medium text-stone-600 text-center hover:text-ocean"
+                              className="rounded-md border border-sand-200 bg-white px-2 py-0.5 text-[10px] font-medium text-stone-600 text-center hover:text-ocean transition"
                             >
                               Detail
                             </Link>
@@ -481,9 +496,9 @@ export function ChatbotWidget() {
                             text: successMsg,
                             timestamp: Date.now(),
                             suggestions: [
-                              "👜 Lihat Koleksi Lainnya",
-                              "📍 Alamat & Jam Buka",
-                              "🌿 Tips Perawatan Anyaman",
+                              "Lihat Koleksi Lainnya",
+                              "Alamat & Jam Buka",
+                              "Tips Perawatan Anyaman",
                             ],
                             actionLinks: [{ label: "Semua Koleksi", url: "/collections/shop-all" }],
                           },
@@ -518,7 +533,7 @@ export function ChatbotWidget() {
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(sug)}
-                        className="rounded-full border border-sand-200 bg-white px-2.5 py-1 text-[11px] sm:text-xs text-stone-700 hover:border-ocean hover:bg-ocean/5 hover:text-ocean transition shadow-xs"
+                        className="rounded-full border border-sand-200 bg-white px-2.5 py-1 text-[11px] sm:text-xs text-stone-700 hover:border-ocean hover:bg-ocean/5 hover:text-ocean transition shadow-2xs cursor-pointer"
                       >
                         {sug}
                       </button>
@@ -560,7 +575,7 @@ export function ChatbotWidget() {
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isTyping}
-                className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-ocean text-white transition hover:bg-[#0f2e2c] disabled:opacity-40 shadow-sm"
+                className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full btn-premium text-white transition disabled:opacity-40 shadow-sm cursor-pointer"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="m22 2-7 20-4-9-9-4Z" />

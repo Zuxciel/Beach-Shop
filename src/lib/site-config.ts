@@ -44,14 +44,14 @@ export const siteConfig = {
   chatbot: {
     botName: "Aesthetic Assistant",
     welcomeMessage:
-      "Halo! Selamat datang di Aesthetic of Indonesia 🌊. Saya asisten virtual Anda. Ada yang bisa saya bantu terkait koleksi tas, topi, sandal pantai, info bahan, atau lokasi toko kami?",
+      "Halo! Selamat datang di Aesthetic of Indonesia. Saya asisten virtual Anda. Ada yang bisa saya bantu terkait koleksi tas, topi, sandal pantai, info bahan, atau lokasi toko kami?",
     quickSuggestions: [
-      "👜 Rekomendasi Tas Pantai",
-      "👒 Koleksi Topi Anyaman",
-      "🩴 Sandal Pantai Nyaman",
-      "📍 Alamat & Jam Buka",
-      "🌿 Bahan & Cara Perawatan",
-      "✉️ Kirim Pesan ke Toko",
+      "Rekomendasi Tas Pantai",
+      "Koleksi Topi Anyaman",
+      "Sandal Pantai Nyaman",
+      "Alamat & Jam Buka",
+      "Bahan & Cara Perawatan",
+      "Kirim Pesan ke Toko",
     ],
   },
 

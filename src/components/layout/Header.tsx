@@ -33,13 +33,22 @@ export function Header() {
           </div>
 
           {/* Brand Logo — left on desktop, centered on mobile */}
-          <Link href="/" className="flex flex-col items-center lg:items-start text-center lg:text-left select-none group">
-            <span className="font-display text-[16px] max-[400px]:text-[15px] sm:text-[20px] font-normal tracking-[0.14em] text-charcoal leading-none group-hover:text-ocean transition-colors">
-              {siteConfig.brand.shortName}
-            </span>
-            <span className="block text-[7px] max-[400px]:text-[6.5px] sm:text-[9px] tracking-[0.3em] text-stone-500 font-sans font-medium uppercase mt-0.5">
-              OF INDONESIA
-            </span>
+          <Link href="/" className="flex items-center gap-2 lg:gap-2.5 select-none group">
+            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-sand-100 border border-sand-200/80 text-ocean shadow-2xs group-hover:border-ocean/40 transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="sm:w-5 sm:h-5">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeDasharray="1 2" />
+                <path d="M12 7c-2.5 0-4.5 2-4.5 5s2 5 4.5 5 4.5-2 4.5-5-2-5-4.5-5Z" />
+                <path d="M7.5 12h9M12 3v3M12 18v3" />
+              </svg>
+            </div>
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+              <span className="font-display text-[16px] max-[400px]:text-[15px] sm:text-[19px] font-normal tracking-[0.14em] text-charcoal leading-none group-hover:text-ocean transition-colors">
+                {siteConfig.brand.shortName}
+              </span>
+              <span className="block text-[7px] max-[400px]:text-[6.5px] sm:text-[8.5px] tracking-[0.3em] text-stone-500 font-sans font-medium uppercase mt-0.5">
+                OF INDONESIA
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav Links — centered in flow, never overlapping */}

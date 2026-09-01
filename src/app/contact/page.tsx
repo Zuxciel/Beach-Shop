@@ -37,9 +37,12 @@ export default function ContactPage() {
         {/* Alamat & Kontak */}
         <div className="rounded-2xl border border-sand-200 bg-white p-4 max-[360px]:p-3.5 sm:p-6 card-elevated flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-sand-100 text-ocean text-xs font-bold shrink-0">
-                📍
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sand-100 border border-sand-200/80 text-ocean text-xs shrink-0 shadow-2xs">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
               </span>
               <h2 className="font-semibold text-xs sm:text-sm text-charcoal">Alamat Galeri & Workshop</h2>
             </div>
@@ -99,9 +102,11 @@ export default function ContactPage() {
         {/* AI Chatbot Info */}
         <div className="rounded-2xl border border-sand-200 bg-sand-50 p-4 max-[360px]:p-3.5 sm:p-6 card-elevated flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-ocean text-xs font-bold shadow-xs shrink-0">
-                💬
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white border border-sand-200/80 text-ocean text-xs shrink-0 shadow-2xs">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
               </span>
               <h2 className="font-semibold text-xs sm:text-sm text-charcoal">Layanan Asisten Virtual</h2>
             </div>
@@ -144,9 +149,12 @@ export default function ContactPage() {
       {/* Form & Newsletter */}
       <div className="mt-6 sm:mt-8 grid gap-4 sm:gap-6 sm:grid-cols-2">
         <div className="rounded-2xl border border-sand-200 bg-white p-4 max-[360px]:p-3.5 sm:p-6 card-elevated">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-sand-100 text-ocean text-xs font-bold shrink-0">
-              ✉️
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sand-100 border border-sand-200/80 text-ocean text-xs shrink-0 shadow-2xs">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
             </span>
             <h2 className="font-semibold text-xs sm:text-sm text-charcoal">Kirim Pesan ke Tim Kami</h2>
           </div>
@@ -160,9 +168,13 @@ export default function ContactPage() {
 
         <div className="rounded-2xl border border-sand-200 bg-sand-50 p-4 max-[360px]:p-3.5 sm:p-6 card-elevated flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-ocean text-xs font-bold shadow-xs shrink-0">
-                📬
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white border border-sand-200/80 text-ocean text-xs shrink-0 shadow-2xs">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H18c2.2 0 4 1.8 4 4v8Z" />
+                  <polyline points="15,9 18,9 18,11" />
+                  <path d="M6.5 5C9 5 11 7 11 9.5V17" />
+                </svg>
               </span>
               <h2 className="font-semibold text-xs sm:text-sm text-charcoal">Daftar Kabar Koleksi</h2>
             </div>

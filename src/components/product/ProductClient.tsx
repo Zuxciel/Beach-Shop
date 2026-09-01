@@ -6,9 +6,13 @@ import { CrossSell } from "./CrossSell";
 import { siteConfig } from "@/lib/site-config";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { useWishlist } from "@/lib/wishlist-context";
 import Link from "next/link";
 
 export function ProductClient({ product }: { product: Product }) {
+  const { isWishlisted, toggle } = useWishlist();
+  const wishlisted = isWishlisted(product.handle);
+
   const price = product.priceRange.minVariantPrice.amount;
   const compareAt = product.compareAtPriceRange?.minVariantPrice.amount ?? null;
   const currency = product.priceRange.minVariantPrice.currencyCode as string;
@@ -55,9 +59,36 @@ export function ProductClient({ product }: { product: Product }) {
 
         {/* Details */}
         <div className="lg:sticky lg:top-[84px] lg:h-fit min-w-0">
-          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
-            {siteConfig.brand.name} • {product.productType}
-          </p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-dark">
+              {siteConfig.brand.name} • {product.productType}
+            </p>
+            {/* Wishlist quick toggle */}
+            <button
+              onClick={() => toggle(product.handle)}
+              aria-label={wishlisted ? "Hapus dari wishlist" : "Tambah ke wishlist"}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium border transition-all cursor-pointer ${
+                wishlisted
+                  ? "bg-clay/10 border-clay text-clay"
+                  : "bg-white border-sand-200 text-stone-600 hover:border-clay hover:text-clay"
+              }`}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill={wishlisted ? "currentColor" : "none"}
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+              </svg>
+              <span>{wishlisted ? "Tersimpan" : "Simpan Wishlist"}</span>
+            </button>
+          </div>
+
           <h1 className="mt-1.5 font-display text-2xl sm:text-3xl lg:text-[34px] leading-tight text-charcoal break-words">
             {product.title}
           </h1>
@@ -106,7 +137,10 @@ export function ProductClient({ product }: { product: Product }) {
                 onClick={openChatForProduct}
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-full btn-premium px-5 py-2.5 text-xs sm:text-sm font-medium text-white shadow-sm cursor-pointer"
               >
-                <span>💬</span> Tanya Asisten AI
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>Tanya Asisten AI</span>
               </button>
               <Link
                 href="/contact"
@@ -150,11 +184,36 @@ export function ProductClient({ product }: { product: Product }) {
           onClick={openChatForProduct}
           className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full btn-premium py-2.5 text-xs font-medium text-white shadow cursor-pointer"
         >
-          <span>💬</span> Tanya Asisten AI
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          <span>Tanya Asisten AI</span>
+        </button>
+        <button
+          onClick={() => toggle(product.handle)}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-all ${
+            wishlisted
+              ? "bg-clay text-white border-clay shadow-sm"
+              : "bg-sand-50 border-sand-200 text-stone-700 hover:border-clay hover:text-clay"
+          }`}
+          aria-label="Wishlist"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill={wishlisted ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+          </svg>
         </button>
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center rounded-full border border-sand-200 bg-sand-50 px-4 py-2.5 text-xs font-medium text-stone-700"
+          className="inline-flex items-center justify-center rounded-full border border-sand-200 bg-sand-50 px-3.5 py-2 text-xs font-medium text-stone-700"
         >
           Kontak
         </Link>

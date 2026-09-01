@@ -13,7 +13,21 @@ export function WishlistClient() {
   if (count === 0) {
     return (
       <div className="mx-auto max-w-[900px] px-4 md:px-6 py-12 md:py-16 text-center">
-        <div className="mx-auto flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-sand-100 text-2xl">♡</div>
+        <div className="mx-auto flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-sand-100 text-clay shadow-xs">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="sm:w-9 sm:h-9"
+          >
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+          </svg>
+        </div>
         <h1 className="mt-4 font-display text-2xl sm:text-3xl text-charcoal">Wishlist Kosong</h1>
         <p className="mt-2 text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
           Simpan koleksi favorit dengan klik ikon hati di kartu produk. Wishlist tersimpan lokal di browser Anda — tidak hilang saat refresh.
